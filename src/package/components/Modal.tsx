@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import styles from "../styles.module.css";
 import Form from "./Form";
 import Chat from "./Chat";
+import Header from "./Header";
 
 export default function Modal() {
   const { isModalShow } = useContext(FeedbackContext);
@@ -11,6 +12,7 @@ export default function Modal() {
 
   return (
     <div className={styles.Modal}>
+      <Header />
       <Chat />
       <Form />
     </div>

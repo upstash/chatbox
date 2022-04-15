@@ -10,20 +10,20 @@ export default function Chat() {
       <div className={styles.ChatMessageIn}>
         <span>hi</span>
       </div>
+      <div className={styles.ChatMessageBot}>
+        <span>
+          Don't have time to wait for a response? Leave your email and we'll be
+          in touch as soon as possible.
+        </span>
+      </div>
       <div className={styles.ChatMessageIn}>
-        <span>hi</span>
+        <span>ademilter@gmail.com</span>
       </div>
       <div className={styles.ChatMessageOut}>
-        <span>hi</span>
-      </div>
-      <div className={styles.ChatMessageIn}>
-        <span>hi</span>
+        <span>123</span>
       </div>
       <div className={styles.ChatMessageOut}>
-        <span>hi</span>
-      </div>
-      <div className={styles.ChatMessageOut}>
-        <span>hi</span>
+        <span>fsdfsdf</span>
       </div>
     </div>
   );

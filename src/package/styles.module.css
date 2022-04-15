@@ -8,6 +8,7 @@
   right: 20px;
   width: 100vw;
   height: 0;
+  font-size: 15px;
   line-height: 1.4;
 
   -webkit-text-size-adjust: 100%;
@@ -53,14 +54,30 @@
   background-color: #fff;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.16) 0 5px 40px;
+}
 
+.Header {
+  padding: 1rem;
+  color: var(--color-text);
+  background-color: var(--color-primary);
+}
+
+.Header h2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.Header p {
+  font-size: 0.9rem;
 }
 
 .Chat {
   padding: 1rem;
+  gap: 10px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  max-height: 200px;
+  overflow: scroll;
 }
 
 .ChatMessage {
@@ -69,31 +86,50 @@
 }
 
 .ChatMessage span {
-  padding: 5px 15px;
+  padding: 10px 15px;
   display: inline-flex;
-  border-radius: 30px;
+  border-radius: 10px;
+}
+
+.ChatMessageOut {
+  composes: ChatMessage;
+  margin-right: 3rem;
+}
+
+.ChatMessageOut span {
+  background-color: #eaeaea;
 }
 
 .ChatMessageIn {
   composes: ChatMessage;
+  margin-left: 3rem;
+  justify-content: flex-end;
 }
 
 .ChatMessageIn span {
-  background-color: #eaeaea;
+  color: var(--color-text);
+  background-color: var(--color-primary);
 }
 
-.ChatMessageOut {
-  justify-content: flex-end;
-  composes: ChatMessage;
+.ChatMessageBot {
+  composes: ChatMessageOut;
 }
 
-.ChatMessageOut span {
-  background-color: #f50;
+.ChatMessageBot span {
 }
+
+/*.ChatMessageBot + .ChatMessageOut,
+.ChatMessageBot + .ChatMessageIn,
+.ChatMessageOut + .ChatMessageBot,
+.ChatMessageOut + .ChatMessageIn,
+.ChatMessageIn + .ChatMessageOut,
+.ChatMessageIn + .ChatMessageBot {
+  margin-top: 20px;
+}*/
 
 .Form {
   position: relative;
-  border-top: 2px solid #eee;
+  border-top: 1px solid #eee;
 }
 
 .FormMessage {

@@ -5,7 +5,7 @@ import { FeedbackProvider } from "./store";
 import styles from "./styles.module.css";
 
 export default function FeedbackWidget({
-  themeColor = "#f23",
+  themeColor = "#2d00c6",
   textColor = "#fff",
   showOnInitial = false,
 }: {
