@@ -1,10 +1,10 @@
 import React from "react";
 import Modal from "./components/Modal";
 import TriggerButton from "./components/TriggerButton";
-import { FeedbackProvider } from "./store";
+import { ChatboxProvider } from "./store";
 import styles from "./styles.module.css";
 
-export default function FeedbackWidget({
+export default function Chatbox({
   themeColor = "#2d00c6",
   textColor = "#fff",
   showOnInitial = false,
@@ -15,7 +15,7 @@ export default function FeedbackWidget({
   children?: React.ReactElement;
 }) {
   return (
-    <FeedbackProvider
+    <ChatboxProvider
       themeColor={themeColor}
       textColor={textColor}
       showOnInitial={showOnInitial}
@@ -31,6 +31,6 @@ export default function FeedbackWidget({
         <TriggerButton />
         <Modal />
       </div>
-    </FeedbackProvider>
+    </ChatboxProvider>
   );
 }

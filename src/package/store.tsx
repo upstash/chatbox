@@ -13,9 +13,9 @@ const defaultState = {
   onSend: () => {},
 };
 
-const FeedbackContext = createContext(defaultState);
+const ChatboxContext = createContext(defaultState);
 
-export function FeedbackProvider({
+export function ChatboxProvider({
   children,
   themeColor,
   textColor,
@@ -53,7 +53,7 @@ export function FeedbackProvider({
   };
 
   return (
-    <FeedbackContext.Provider
+    <ChatboxContext.Provider
       value={{
         themeColor,
         textColor,
@@ -68,8 +68,8 @@ export function FeedbackProvider({
       }}
     >
       {children}
-    </FeedbackContext.Provider>
+    </ChatboxContext.Provider>
   );
 }
 
-export default FeedbackContext;
+export default ChatboxContext;

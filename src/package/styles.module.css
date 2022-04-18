@@ -76,7 +76,7 @@
   gap: 10px;
   display: flex;
   flex-direction: column;
-  max-height: 200px;
+  max-height: 300px;
   overflow: scroll;
 }
 
