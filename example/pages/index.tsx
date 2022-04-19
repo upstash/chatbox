@@ -15,15 +15,6 @@ export default function Home() {
       </Head>
 
       <ChatBox showOnInitial />
-
-      <div>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem culpa
-          dolore doloremque enim expedita, laborum maxime nostrum nulla,
-          pariatur quis quisquam quo, rem sapiente sed sequi tempora veritatis
-          voluptate voluptatum.
-        </p>
-      </div>
     </div>
   );
 }
