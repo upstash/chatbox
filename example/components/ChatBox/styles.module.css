@@ -70,7 +70,7 @@
 
 .Chat {
   padding: 1rem;
-  gap: 10px;
+  gap: 5px;
   display: flex;
   flex-direction: column;
   height: 300px;

@@ -35,7 +35,7 @@ export function ChatBoxProvider({
   const [isModalShow, setIsModalShow] = useState(showOnInitial);
 
   async function fetchList(id = UID) {
-    const response = await fetch(`/api/chat/${id}`, { method: "GET" });
+    const response = await fetch(`/api/chatbox/chat/${id}`, { method: "GET" });
     const data = await response.json();
     setChat(data.chatData);
   }
@@ -47,9 +47,8 @@ export function ChatBoxProvider({
       if (!chatInitiated) {
         id = new Date().getTime().toString();
 
-        const initResponse = await fetch(`/api/slack/${id}`, {
+        const initResponse = await fetch(`/api/chatbox/slack/${id}`, {
           method: "POST",
-          body: JSON.stringify({ id }),
         });
 
         if (initResponse.status !== 200) {
@@ -62,7 +61,7 @@ export function ChatBoxProvider({
 
       let replyText = "i:" + message;
 
-      const replyResponse = await fetch(`/api/chat/${id}`, {
+      const replyResponse = await fetch(`/api/chatbox/chat/${id}`, {
         method: "POST",
         body: JSON.stringify({ text: replyText }),
       });
@@ -87,12 +86,13 @@ export function ChatBoxProvider({
   };
 
   useEffect(() => {
-    if (chatInitiated) {
-      const interval = setInterval(() => {
-        fetchList();
-      }, 2000);
-      return () => clearInterval(interval);
-    }
+    if (!chatInitiated || !isModalShow) return;
+
+    const interval = setInterval(() => {
+      fetchList();
+    }, 3000);
+
+    return () => clearInterval(interval);
   });
 
   return (

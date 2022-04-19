@@ -17,7 +17,7 @@ export default function Chat() {
   });
 
   const fetchList = async () => {
-    const response = await fetch(`/api/chat/${id}`, { method: "GET" });
+    const response = await fetch(`/api/chatbox/chat/${id}`, { method: "GET" });
     const data = await response.json();
     setChat(data.chatData);
   };
@@ -25,7 +25,7 @@ export default function Chat() {
   const writeToChat = async () => {
     let replyText = "o:" + text;
 
-    const response = await fetch(`/api/chat/${id}`, {
+    const response = await fetch(`/api/chatbox/chat/${id}`, {
       method: "POST",
       body: JSON.stringify({ text: replyText }),
     });
