@@ -1,0 +1,115 @@
+.Root {
+  --color-primary: #00bcd4;
+  --color-text: #fff;
+
+  background-color: #eee;
+
+  -webkit-text-size-adjust: 100%;
+  font-family: system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.Root * {
+  box-sizing: border-box;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  background-color: transparent;
+}
+
+.Grid {
+  background-color: #fff;
+  margin: 0 auto;
+  width: 400px;
+  font-size: 15px;
+  line-height: 1.4;
+  display: grid;
+  height: 100vh;
+  grid-template-rows: auto 1fr auto;
+}
+
+.Header {
+  padding: 1rem;
+  color: #fff;
+  background-color: #000;
+}
+
+.Chat {
+  padding: 1rem;
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: scroll;
+}
+
+.ChatMessage {
+  position: relative;
+  display: flex;
+}
+
+.ChatMessage span {
+  padding: 10px 15px;
+  display: inline-flex;
+  border-radius: 10px;
+}
+
+.ChatMessageOut {
+  composes: ChatMessage;
+  margin-right: 3rem;
+}
+
+.ChatMessageOut span {
+  background-color: #eaeaea;
+}
+
+.ChatMessageIn {
+  composes: ChatMessage;
+  margin-left: 3rem;
+  justify-content: flex-end;
+}
+
+.ChatMessageIn span {
+  color: var(--color-text);
+  background-color: var(--color-primary);
+}
+
+.ChatMessageBot {
+  composes: ChatMessageOut;
+}
+
+.ChatMessageBot span {
+}
+
+.Form {
+  position: relative;
+  border-top: 1px solid #eee;
+}
+
+.FormMessage {
+  display: block;
+  height: 50px;
+  width: 100%;
+  padding: 1rem;
+  outline: 0;
+  resize: none;
+}
+
+.FormMessage::placeholder {
+  color: #aaa;
+}
+
+.FormSubmit {
+  cursor: pointer;
+  z-index: 2;
+  position: absolute;
+  right: 1rem;
+  top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
