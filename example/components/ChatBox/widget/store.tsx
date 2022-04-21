@@ -25,8 +25,34 @@ export function ChatBoxProvider({
   showOnInitial: boolean;
 }) {
 
+  // default is 24 hours
+  function setWithExpiry(key:string, value: string, ttl = 24*60*60*1000) {
+    const now = new Date()
+
+    const item = {
+      value: value,
+      expiry: now.getTime() + ttl,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  }
+
+  function getWithExpiry(key: string) {
+    const itemStr = localStorage.getItem(key)
+    if (!itemStr) {
+      return null
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      window.location.reload()
+      return null
+    }
+    return item.value
+  }
+
   let initialID = "visitor";
-  const localID = window.localStorage.getItem("chatbox_id")
+  const localID = getWithExpiry("chatbox_id")
   console.log("localID", localID)
 
   const [UID, setUID] = useState(localID ? localID : initialID);
@@ -54,12 +80,11 @@ export function ChatBoxProvider({
           method: "POST",
         });
 
-        window.localStorage.setItem("chatbox_id", id)
+        setWithExpiry("chatbox_id", id)
 
         if (initResponse.status !== 200) {
+          localStorage.removeItem("chatbox_id")
           throw new Error("Failed to init chat")
-          // RM from local storage
-          // window.localStorage.setItem("chatbox_id", id)
         }
 
         setChatInitiated(true);
@@ -101,7 +126,7 @@ export function ChatBoxProvider({
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [chatInitiated, isModalShow]);
+  }, [chatInitiated, isModalShow, UID]);
 
   return (
     <ChatBoxContext.Provider
