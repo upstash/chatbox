@@ -101,7 +101,7 @@ export function ChatBoxProvider({
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [chatInitiated, isModalShow]);
 
   return (
     <ChatBoxContext.Provider
