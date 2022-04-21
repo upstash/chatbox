@@ -1,9 +1,12 @@
-import { useRouter } from "next/router";
-import { ChatBoxAdmin } from "@upstash/chatbox";
+import dynamic from "next/dynamic";
+
+const ChatBoxAdmin = dynamic({
+  // @ts-ignore
+  // loader: () => import("@upstash/chatbox").then((mod) => mod.ChatBoxAdmin),
+  loader: () => import("components/Admin"),
+  ssr: false,
+});
 
 export default function () {
-  const router = useRouter();
-  const { id } = router.query;
-
-  return <ChatBoxAdmin children={<div></div>} id={id as string} />;
+  return <ChatBoxAdmin />;
 }
