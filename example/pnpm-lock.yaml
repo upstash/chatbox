@@ -3,7 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@types/node': ^17.0.24
   '@types/react': ^17.0.44
-  '@upstash/chatbox': ^1.0.8
+  '@upstash/chatbox': ^1.0.91
   '@upstash/redis': ^1.1.0
   eslint: 8.12.0
   eslint-config-next: 12.1.4
@@ -14,7 +14,7 @@ specifiers:
   typescript: ^4.6.3
 
 dependencies:
-  '@upstash/chatbox': 1.0.8_@types+react@17.0.44
+  '@upstash/chatbox': 1.0.91_@types+react@17.0.44
   '@upstash/redis': 1.1.0
   next: 12.1.5_react-dom@17.0.2+react@17.0.2
   react: 17.0.2
@@ -305,8 +305,8 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: true
 
-  /@upstash/chatbox/1.0.8_@types+react@17.0.44:
-    resolution: {integrity: sha512-8i9R5YTyCU6RoqN7JRX4ybrbK8d0Y46jVKgKHwfdlEWo+lLU4934GPy5ZDcBARnovK2R+X+Dni5uFqQI2dEsrg==}
+  /@upstash/chatbox/1.0.91_@types+react@17.0.44:
+    resolution: {integrity: sha512-05vbUQa7s/qxOQddwxoidpcfELj1q++MWsg/Vhan+7W3h7zCauCF/Iy86DSUR+peqUjPgB/WFRSTRQAYUewzPA==}
     dependencies:
       '@upstash/redis': 1.2.0
       next: 12.1.5_react-dom@17.0.2+react@17.0.2

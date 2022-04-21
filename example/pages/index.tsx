@@ -1,5 +1,6 @@
 import Head from "next/head";
 import dynamic from "next/dynamic";
+// import { ChatBoxWidget } from "@upstash/chatbox";
 
 const ChatBoxWidget = dynamic({
   // @ts-ignore
@@ -16,7 +17,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <ChatBoxWidget />
+      <ChatBoxWidget children={<div></div>} />
     </div>
   );
 }

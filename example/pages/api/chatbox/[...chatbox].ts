@@ -1,4 +1,4 @@
-import { ChatBoxAPI } from "@upstash/chatbox";
+import ChatBoxAPI from "@upstash/chatbox/dist/api";
 
 export default ChatBoxAPI;
 

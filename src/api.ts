@@ -1,7 +1,8 @@
 import { Redis } from "@upstash/redis";
 
 const redis = Redis.fromEnv();
-const webhook = process.env.SLACK_WEBHOOK || [];
+const webhook = process.env.SLACK_WEBHOOK as string;
+const domain = process.env.DOMAIN as string;
 
 export default async function handler(req: any, res: any) {
   const method = req.method;
@@ -34,9 +35,9 @@ export default async function handler(req: any, res: any) {
       switch (method) {
         // POST: /slack/[id]
         case "POST":
-          const text = `New chat with id: http://localhost:3000/chats/${chatId}`;
+          const text = `New chat with id: ${domain}/chats/${chatId}`;
 
-          const response = await fetch(webhook as string, {
+          const response = await fetch(webhook, {
             method: "POST",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify({ text }),
