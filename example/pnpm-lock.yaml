@@ -3,7 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@types/node': ^17.0.24
   '@types/react': ^17.0.44
-  '@upstash/chatbox': ../
+  '@upstash/chatbox': ^1.0.8
   '@upstash/redis': ^1.1.0
   eslint: 8.12.0
   eslint-config-next: 12.1.4
@@ -14,7 +14,7 @@ specifiers:
   typescript: ^4.6.3
 
 dependencies:
-  '@upstash/chatbox': link:..
+  '@upstash/chatbox': 1.0.8_@types+react@17.0.44
   '@upstash/redis': 1.1.0
   next: 12.1.5_react-dom@17.0.2+react@17.0.2
   react: 17.0.2
@@ -305,8 +305,35 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: true
 
+  /@upstash/chatbox/1.0.8_@types+react@17.0.44:
+    resolution: {integrity: sha512-8i9R5YTyCU6RoqN7JRX4ybrbK8d0Y46jVKgKHwfdlEWo+lLU4934GPy5ZDcBARnovK2R+X+Dni5uFqQI2dEsrg==}
+    dependencies:
+      '@upstash/redis': 1.2.0
+      next: 12.1.5_react-dom@17.0.2+react@17.0.2
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-textarea-autosize: 8.3.3_c8e45b4eb687790dba17b4e1c4b4273f
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@types/react'
+      - babel-plugin-macros
+      - encoding
+      - fibers
+      - node-sass
+      - sass
+    dev: false
+
   /@upstash/redis/1.1.0:
     resolution: {integrity: sha512-5b6GauhLZDmvJ8gAz3QX55uVNO0AqqZT3KU+bmKFjJ8HYUJXcC3TnXJcswDXWLjMOgV8T+NaBWhCN2As6Rx+zw==}
+    engines: {node: '>=10'}
+    dependencies:
+      isomorphic-fetch: 3.0.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@upstash/redis/1.2.0:
+    resolution: {integrity: sha512-7Cm0OrUrOFf00hSPBY/g5CIOzSyIntMB8ZejUqSuVueaKaDrxtrN2pFF92aELSNEfcdG1wmt3i3FwTVtT0Fa5Q==}
     engines: {node: '>=10'}
     dependencies:
       isomorphic-fetch: 3.0.0

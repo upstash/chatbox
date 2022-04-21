@@ -1,17 +1,13 @@
-import React from "react";
-import { useRouter } from "next/router";
+import { PropsWithChildren } from "react";
 import { ChatBoxProvider } from "./store";
 import Chat from "./components/Chat";
 import Form from "./components/Form";
 
 import styles from "./styles.module.css";
 
-type Props = React.PropsWithChildren<any> & {};
+type Props = PropsWithChildren<any> & { id: string };
 
-export default function ChatBox({}: Props) {
-  const router = useRouter();
-  const { id } = router.query;
-
+export default function ChatBox({ id }: Props) {
   return (
     <ChatBoxProvider id={id as string}>
       <div className={styles.Root}>

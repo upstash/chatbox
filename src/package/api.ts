@@ -1,13 +1,9 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { Redis } from "@upstash/redis";
 
 const redis = Redis.fromEnv();
-const webhook = process.env.SLACK_WEBHOOK as string;
+const webhook = process.env.SLACK_WEBHOOK || [];
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req: any, res: any) {
   const method = req.method;
 
   const api = req.query.chatbox[0];
@@ -40,7 +36,7 @@ export default async function handler(
         case "POST":
           const text = `New chat with id: http://localhost:3000/chats/${chatId}`;
 
-          const response = await fetch(webhook, {
+          const response = await fetch(webhook as string, {
             method: "POST",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify({ text }),

@@ -1,13 +1,13 @@
 {
   "name": "@upstash/chatbox",
-  "version": "1.0.0",
+  "version": "1.0.8",
   "license": "MIT",
-  "main": "./dist/chatbox.umd.js",
-  "module": "./dist/chatbox.es.js",
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
   "exports": {
     ".": {
-      "import": "./dist/chatbox.es.js",
-      "require": "./dist/chatbox.umd.js"
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
     },
     "./": "./"
   },
@@ -16,8 +16,8 @@
     "build": "tsc && vite build"
   },
   "dependencies": {
-    "@upstash/redis": "^1.0.3",
-    "classnames": "^2.3.1",
+    "@upstash/redis": "^1.2.0",
+    "next": "^12.1.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-textarea-autosize": "^8.3.3"
