@@ -24,10 +24,13 @@ export function ChatBoxProvider({
   children: any;
   showOnInitial: boolean;
 }) {
-  const initialID = "visitor";
 
-  const [UID, setUID] = useState(initialID);
-  const [chatInitiated, setChatInitiated] = useState(false);
+  let initialID = "visitor";
+  const localID = window.localStorage.getItem("chatbox_id")
+  console.log("localID", localID)
+
+  const [UID, setUID] = useState(localID ? localID : initialID);
+  const [chatInitiated, setChatInitiated] = useState(localID ? true : false);
 
   const [chat, setChat] = useState([]);
   const [message, setMessage] = useState("");
@@ -51,8 +54,12 @@ export function ChatBoxProvider({
           method: "POST",
         });
 
+        window.localStorage.setItem("chatbox_id", id)
+
         if (initResponse.status !== 200) {
-          throw new Error("Failed to init chat");
+          throw new Error("Failed to init chat")
+          // RM from local storage
+          // window.localStorage.setItem("chatbox_id", id)
         }
 
         setChatInitiated(true);
@@ -88,6 +95,7 @@ export function ChatBoxProvider({
   useEffect(() => {
     if (!chatInitiated || !isModalShow) return;
 
+    fetchList()
     const interval = setInterval(() => {
       fetchList();
     }, 3000);
