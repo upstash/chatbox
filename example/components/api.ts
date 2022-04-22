@@ -1,10 +1,11 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { Redis } from "@upstash/redis";
 
 const redis = Redis.fromEnv();
 
 export default async function handler(
-  req: any,
-  res: any,
+  req: NextApiRequest,
+  res: NextApiResponse,
   options: { webhooks: string[] }
 ) {
   const method = req.method;
@@ -12,49 +13,59 @@ export default async function handler(
   const api = req.query.chatbox[0];
   const chatId = req.query.chatbox[1];
 
-  if (!chatId) return res.status(400).json({ message: "Bad Request" });
+  try {
+    if (!chatId) throw new Error("Missing chatId");
 
-  switch (api) {
-    case "chat":
-      switch (method) {
-        // GET: /chat/[id]
-        case "GET":
-          const data = await redis.lrange(chatId, 0, 2 ** 32 - 1);
-          return res.status(200).json({ chatData: data });
+    switch (api) {
+      case "chat":
+        switch (method) {
+          // GET: /chat/[id]
+          case "GET":
+            const data = await redis.lrange(chatId, 0, 2 ** 32 - 1);
+            return res.status(200).json({ chatData: data });
 
-        // POST: /chat/[id]
-        case "POST":
-          const { text } = JSON.parse(req.body);
+          // POST: /chat/[id]
+          case "POST":
+            const { text } = JSON.parse(req.body);
 
-          const response = await redis.rpush(chatId, text);
-          return res.status(200).json({ response });
+            const response = await redis.rpush(chatId, text);
+            return res.status(200).json({ response });
 
-        default:
-          return res.status(405).json({ message: "Method Not Allowed" });
-      }
+          default:
+            throw new Error("Method not allowed");
+        }
 
-    case "slack":
-      switch (method) {
-        // POST: /slack/[id]
-        case "POST":
-          const text = `New chat with id: ${process.env.DOMAIN}/chats/${chatId}`;
+      case "slack":
+        switch (method) {
+          // POST: /slack/[id]
+          case "POST":
+            const text = `New chat with id: ${process.env.DOMAIN}/chats/${chatId}`;
 
-          const requests = options.webhooks.map(async (webhook) => {
-            return fetch(webhook, {
-              method: "POST",
-              body: JSON.stringify({ text }),
-              headers: { "Content-Type": "application/json" },
+            const requests = options.webhooks.map(async (webhook) => {
+              return fetch(webhook, {
+                method: "POST",
+                body: JSON.stringify({ text }),
+                headers: { "Content-Type": "application/json" },
+              });
             });
-          });
 
-          await Promise.all(requests);
+            await Promise.all(requests);
 
-          return res.status(200).json({ response: "ok" });
+            return res.status(200).json({ response: "ok" });
 
-        default:
-          return res.status(405).json({ message: "Method Not Allowed" });
-      }
-    default:
-      return res.status(405).json({ message: "Method Not Allowed" });
+          default:
+            throw new Error("Method not allowed");
+        }
+      default:
+        throw new Error("Method not allowed");
+    }
+  } catch (err) {
+    let message = err;
+
+    if (err instanceof TypeError) {
+      message = err.message;
+    }
+
+    return res.status(500).json({ message });
   }
 }

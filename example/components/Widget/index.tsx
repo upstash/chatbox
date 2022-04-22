@@ -6,10 +6,13 @@ import { ChatBoxProvider } from "./store";
 import styles from "./styles.module.css";
 
 export interface IChatBoxWidget {
-  // children: React.ReactNode;
   themeColor?: string;
   textColor?: string;
+  autoMessage?: null | string | React.ReactElement;
+  title?: null | string | React.ReactElement;
+  description?: null | string | React.ReactElement;
   showOnInitial?: boolean;
+  children?: React.ReactElement;
 }
 
 export default function ChatBox({
