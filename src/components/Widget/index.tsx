@@ -1,25 +1,29 @@
-import { PropsWithChildren } from "react";
+import React from "react";
 import Modal from "./components/Modal";
 import TriggerButton from "./components/TriggerButton";
 import { ChatBoxProvider } from "./store";
 
-import styles from "./styles.module.css";
+import "./styles.scss";
 
-type Props = PropsWithChildren<any> & {
+export interface IChatBoxWidget {
   themeColor?: string;
   textColor?: string;
+  autoMessage?: null | string | React.ReactElement;
+  title?: null | string | React.ReactElement;
+  description?: null | string | React.ReactElement;
   showOnInitial?: boolean;
-};
+  children?: React.ReactElement;
+}
 
 export default function ChatBox({
   themeColor = "#2d00c6",
   textColor = "#fff",
   showOnInitial = false,
-}: Props) {
+}: IChatBoxWidget) {
   return (
     <ChatBoxProvider showOnInitial={showOnInitial}>
       <div
-        className={styles.ChatBox}
+        className="ChatBox"
         style={{
           // @ts-ignore
           "--color-primary": themeColor,

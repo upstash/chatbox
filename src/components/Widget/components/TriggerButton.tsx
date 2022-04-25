@@ -1,9 +1,7 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import FeedbackContext from "../store";
 import IconDefault from "./IconDefault";
 import IconClose from "./IconClose";
-
-import styles from "../styles.module.css";
 
 export default function TriggerButton({
   children,
@@ -15,7 +13,7 @@ export default function TriggerButton({
   return (
     <button
       type="button"
-      className={styles.TriggerButton}
+      className="TriggerButton"
       onClick={() => {
         onModalShow(!isModalShow);
       }}

@@ -1,16 +1,15 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import FeedbackContext from "../store";
 import TextareaAutosize from "react-textarea-autosize";
 
-import styles from "../styles.module.css";
+interface IChatBoxAdminForm {}
 
-export default function Form() {
-  const { message, onChangeMessage, onSendMessage } =
-    useContext(FeedbackContext);
+export default function Form(props: IChatBoxAdminForm) {
+  const { message, setMessage, onSendMessage } = useContext(FeedbackContext);
 
   return (
     <form
-      className={styles.Form}
+      className="Form"
       onSubmit={(e) => {
         e.preventDefault();
         onSendMessage();
@@ -21,14 +20,22 @@ export default function Form() {
         required
         name="message"
         placeholder="Write a message..."
-        className={styles.FormMessage}
+        className="FormMessage"
         maxRows={5}
         value={message}
-        onChange={(event) => onChangeMessage(event.target.value)}
+        onChange={(event) => setMessage(event.target.value)}
       />
+      {/*<input
+        required
+        name="message"
+        placeholder="Write a message..."
+        className={styles.FormMessage}
+        value={message}
+        onChange={(event) => setMessage(event.target.value)}
+      />*/}
 
       <div>
-        <button type="submit" className={styles.FormSubmit}>
+        <button type="submit" className="FormSubmit">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="icon icon-tabler icon-tabler-send"

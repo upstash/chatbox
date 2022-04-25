@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function IconDefault({ size = 30, ...props }) {
   return (
     <svg

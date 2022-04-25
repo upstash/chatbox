@@ -1,9 +1,9 @@
 import FeedbackContext from "../store";
-import { useContext } from "react";
+import React, { useContext } from "react";
 
-import styles from "../styles.module.css";
+interface IChatBoxAdminChat {}
 
-export default function Chat() {
+export default function Chat(props: IChatBoxAdminChat) {
   const { chat } = useContext(FeedbackContext);
 
   function parseString(str: string) {
@@ -15,7 +15,7 @@ export default function Chat() {
   const Messages = chat.map((item, index) => {
     const parsedStr = parseString(item);
     const isIn = parsedStr[0] === "i";
-    const classNames = isIn ? styles.ChatMessageIn : styles.ChatMessageOut;
+    const classNames = isIn ? "ChatMessageIn" : "ChatMessageOut";
 
     return (
       <div key={index} className={classNames}>
@@ -24,5 +24,5 @@ export default function Chat() {
     );
   });
 
-  return <div className={styles.Chat}>{Messages}</div>;
+  return <div className="Chat">{Messages}</div>;
 }

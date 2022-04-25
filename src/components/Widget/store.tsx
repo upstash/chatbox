@@ -24,36 +24,39 @@ export function ChatBoxProvider({
   children: any;
   showOnInitial: boolean;
 }) {
-
   // default is 24 hours
-  function setWithExpiry(key:string, value: string, ttl = 24*60*60*1000) {
-    const now = new Date()
+  function setWithExpiry(
+    key: string,
+    value: string,
+    ttl = 24 * 60 * 60 * 1000
+  ) {
+    const now = new Date();
 
     const item = {
       value: value,
       expiry: now.getTime() + ttl,
-    }
-    localStorage.setItem(key, JSON.stringify(item))
+    };
+    localStorage.setItem(key, JSON.stringify(item));
   }
 
   function getWithExpiry(key: string) {
-    const itemStr = localStorage.getItem(key)
+    const itemStr = localStorage.getItem(key);
     if (!itemStr) {
-      return null
+      return null;
     }
-    const item = JSON.parse(itemStr)
-    const now = new Date()
+    const item = JSON.parse(itemStr);
+    const now = new Date();
     if (now.getTime() > item.expiry) {
-      localStorage.removeItem(key)
-      window.location.reload()
-      return null
+      localStorage.removeItem(key);
+      window.location.reload();
+      return null;
     }
-    return item.value
+    return item.value;
   }
 
   let initialID = "visitor";
-  const localID = getWithExpiry("chatbox_id")
-  console.log("localID", localID)
+  const localID = getWithExpiry("chatbox_id");
+  console.log("localID", localID);
 
   const [UID, setUID] = useState(localID ? localID : initialID);
   const [chatInitiated, setChatInitiated] = useState(localID ? true : false);
@@ -80,11 +83,11 @@ export function ChatBoxProvider({
           method: "POST",
         });
 
-        setWithExpiry("chatbox_id", id)
+        setWithExpiry("chatbox_id", id);
 
         if (initResponse.status !== 200) {
-          localStorage.removeItem("chatbox_id")
-          throw new Error("Failed to init chat")
+          localStorage.removeItem("chatbox_id");
+          throw new Error("Failed to init chat");
         }
 
         setChatInitiated(true);
@@ -120,7 +123,7 @@ export function ChatBoxProvider({
   useEffect(() => {
     if (!chatInitiated || !isModalShow) return;
 
-    fetchList()
+    fetchList();
     const interval = setInterval(() => {
       fetchList();
     }, 3000);

@@ -1,7 +1,8 @@
 import dynamic from "next/dynamic";
 
 const ChatBoxAdmin = dynamic({
-  loader: () => import("components/Admin"),
+  // @ts-ignore
+  loader: () => import("components").then((mod) => mod.ChatBoxAdmin),
   ssr: false,
 });
 

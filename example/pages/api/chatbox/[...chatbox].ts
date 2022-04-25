@@ -1,7 +1,7 @@
-import {NextApiRequest, NextApiResponse} from "next"
-import ChatBoxAPI from "components/api";
+import createChatBoxAPI from "components/api";
 
-export default (req: NextApiRequest, res: NextApiResponse) =>
-  ChatBoxAPI(req, res, {
-    webhooks: [process.env.SLACK_WEBHOOK_URL!],
-  });
+const ChatBoxAPI = createChatBoxAPI({
+  webhooks: [process.env.SLACK_WEBHOOK_URL!],
+});
+
+export default ChatBoxAPI;
