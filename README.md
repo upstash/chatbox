@@ -53,8 +53,8 @@ export default function MyApp({ Component, pageProps }) {
 
 ### 4. Admin Dashboard
 
-```jsx
-// pages/chat/[id].jsx
+```js
+// pages/chat/[id].js
 
 import dynamic from "next/dynamic";
 
