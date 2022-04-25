@@ -3,7 +3,7 @@ import Modal from "./components/Modal";
 import TriggerButton from "./components/TriggerButton";
 import { ChatBoxProvider } from "./store";
 
-import "./styles.scss";
+// import "./styles.scss";
 
 export interface IChatBoxWidget {
   themeColor?: string;

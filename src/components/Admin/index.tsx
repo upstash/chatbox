@@ -4,7 +4,7 @@ import { ChatBoxProvider } from "./store";
 import Chat from "./components/Chat";
 import Form from "./components/Form";
 
-import "./styles.scss";
+// import "./styles.scss";
 
 export interface IChatBoxAdmin {}
 
