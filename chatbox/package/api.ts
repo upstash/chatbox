@@ -37,7 +37,7 @@ export default function createChatBoxAPI(options: { webhooks: string[] }) {
           switch (method) {
             // POST: /slack/[id]
             case "POST":
-              const text = `New chat with id: ${domain}/chats/${chatId}`;
+              const text = `New chat with id: ${domain}/chat/${chatId}`;
 
               const requests = options.webhooks.map(async (webhook) => {
                 return fetch(webhook, {

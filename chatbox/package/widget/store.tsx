@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
+import { nanoid } from "nanoid";
 
 interface IChatBoxContext {
   showOnInitial: boolean;
@@ -77,7 +78,7 @@ export function ChatBoxProvider({
       let id = UID;
 
       if (!chatInitiated) {
-        id = new Date().getTime().toString();
+        id = nanoid(10);
 
         const initResponse = await fetch(`/api/chatbox/slack/${id}`, {
           method: "POST",
