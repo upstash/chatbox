@@ -1,7 +1,8 @@
 import dynamic from "next/dynamic";
 
 const ChatBoxAdmin = dynamic({
-  loader: () => import("@upstash/chatbox/admin"),
+  // @ts-ignore
+  loader: () => import("@upstash/chatbox").then((mod) => mod.ChatBoxAdmin),
   ssr: false,
 });
 

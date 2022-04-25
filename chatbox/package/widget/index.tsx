@@ -3,8 +3,6 @@ import Modal from "./components/Modal";
 import TriggerButton from "./components/TriggerButton";
 import { ChatBoxProvider } from "./store";
 
-// import "./styles.scss";
-
 export interface IChatBoxWidget {
   themeColor?: string;
   textColor?: string;
@@ -22,16 +20,18 @@ export default function ChatBox({
 }: IChatBoxWidget) {
   return (
     <ChatBoxProvider showOnInitial={showOnInitial}>
-      <div
-        className="ChatBox"
-        style={{
-          // @ts-ignore
-          "--color-primary": themeColor,
-          "--color-text": textColor,
-        }}
-      >
-        <TriggerButton />
-        <Modal />
+      <div className="chatbox">
+        <div
+          className="chatbox-widget-root"
+          style={{
+            // @ts-ignore
+            "--color-primary": themeColor,
+            "--color-text": textColor,
+          }}
+        >
+          <TriggerButton />
+          <Modal />
+        </div>
       </div>
     </ChatBoxProvider>
   );

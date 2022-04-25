@@ -9,7 +9,7 @@ export default function Form(props: IChatBoxAdminForm) {
 
   return (
     <form
-      className="Form"
+      className="chatbox-form"
       onSubmit={(e) => {
         e.preventDefault();
         onSendMessage();
@@ -20,25 +20,16 @@ export default function Form(props: IChatBoxAdminForm) {
         required
         name="message"
         placeholder="Write a message..."
-        className="FormMessage"
+        className="chatbox-form-message"
         maxRows={5}
         value={message}
         onChange={(event) => setMessage(event.target.value)}
       />
-      {/*<input
-        required
-        name="message"
-        placeholder="Write a message..."
-        className={styles.FormMessage}
-        value={message}
-        onChange={(event) => setMessage(event.target.value)}
-      />*/}
 
       <div>
-        <button type="submit" className="FormSubmit">
+        <button type="submit" className="chatbox-form-submit">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="icon icon-tabler icon-tabler-send"
             width="24"
             height="24"
             viewBox="0 0 24 24"

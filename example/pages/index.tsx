@@ -2,8 +2,8 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 
 const ChatBoxWidget = dynamic({
-// @ts-ignore
-  loader: () => import("@upstash/chatbox").then(mod => mod.ChatBoxWidget),
+  // @ts-ignore
+  loader: () => import("@upstash/chatbox").then((mod) => mod.ChatBoxWidget),
   ssr: false,
 });
 

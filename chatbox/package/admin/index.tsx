@@ -4,8 +4,6 @@ import { ChatBoxProvider } from "./store";
 import Chat from "./components/Chat";
 import Form from "./components/Form";
 
-// import "./styles.scss";
-
 export interface IChatBoxAdmin {}
 
 export default function ChatBoxAdmin({}: IChatBoxAdmin) {
@@ -14,13 +12,15 @@ export default function ChatBoxAdmin({}: IChatBoxAdmin) {
 
   return (
     <ChatBoxProvider id={id as string}>
-      <div className="Root">
-        <div className="Grid">
-          <header className="Header">
-            <h1>Hi, chat id: {id}:</h1>
-          </header>
-          <Chat />
-          <Form />
+      <div className="chatbox">
+        <div className="chatbox-admin-root">
+          <div className="chatbox-admin-grid">
+            <header className="chatbox-admin-header">
+              <h1>Hi, chat id: {id}:</h1>
+            </header>
+            <Chat />
+            <Form />
+          </div>
         </div>
       </div>
     </ChatBoxProvider>

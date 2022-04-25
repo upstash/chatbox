@@ -10,7 +10,7 @@ export default function Modal() {
   if (!isModalShow) return null;
 
   return (
-    <div className="Modal">
+    <div className="chatbox-widget-modal">
       <Header />
       <Chat />
       <Form />

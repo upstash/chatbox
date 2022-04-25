@@ -15,14 +15,16 @@ export default function Chat(props: IChatBoxAdminChat) {
   const Messages = chat.map((item, index) => {
     const parsedStr = parseString(item);
     const isIn = parsedStr[0] === "i";
-    const classNames = isIn ? "ChatMessageIn" : "ChatMessageOut";
+    const classNames = isIn
+      ? "chatbox-chat-message-in"
+      : "chatbox-chat-message-out";
 
     return (
-      <div key={index} className={classNames}>
+      <div key={index} className={`chatbox-chat-message ${classNames}`}>
         <span>{parsedStr[1]}</span>
       </div>
     );
   });
 
-  return <div className="Chat">{Messages}</div>;
+  return <div className="chatbox-chat">{Messages}</div>;
 }

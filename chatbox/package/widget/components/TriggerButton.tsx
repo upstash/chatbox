@@ -13,7 +13,7 @@ export default function TriggerButton({
   return (
     <button
       type="button"
-      className="TriggerButton"
+      className="chatbox-widget-trigger-button"
       onClick={() => {
         onModalShow(!isModalShow);
       }}
