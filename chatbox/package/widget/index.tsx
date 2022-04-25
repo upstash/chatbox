@@ -1,6 +1,6 @@
 import React from "react";
-import Modal from "./components/Modal";
-import TriggerButton from "./components/TriggerButton";
+import Modal from "./components/modal";
+import TriggerButton from "./components/trigger-button";
 import { ChatBoxProvider } from "./store";
 
 export interface IChatBoxWidget {

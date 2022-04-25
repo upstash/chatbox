@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import FeedbackContext from "../store";
-import IconDefault from "./IconDefault";
-import IconClose from "./IconClose";
+import IconDefault from "./icon-default";
+import IconClose from "./icon-close";
 
 export default function TriggerButton({
   children,

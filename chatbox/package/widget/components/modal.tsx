@@ -1,8 +1,8 @@
 import FeedbackContext from "../store";
 import React, { useContext } from "react";
-import Form from "./Form";
-import Chat from "./Chat";
-import Header from "./Header";
+import Form from "./form";
+import Chat from "./chat";
+import Header from "./header";
 
 export default function Modal() {
   const { isModalShow } = useContext(FeedbackContext);

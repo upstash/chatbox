@@ -1,8 +1,8 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { ChatBoxProvider } from "./store";
-import Chat from "./components/Chat";
-import Form from "./components/Form";
+import Chat from "./components/chat";
+import Form from "./components/form";
 
 export interface IChatBoxAdmin {}
 
