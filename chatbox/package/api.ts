@@ -3,7 +3,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export default function createChatBoxAPI(options: { webhooks: string[] }) {
   const redis = Redis.fromEnv();
-  const domain = process.env.DOMAIN;
 
   return async function (req: NextApiRequest, res: NextApiResponse) {
     const method = req.method;
@@ -37,7 +36,7 @@ export default function createChatBoxAPI(options: { webhooks: string[] }) {
           switch (method) {
             // POST: /slack/[id]
             case "POST":
-              const text = `New chat with id: ${domain}/chat/${chatId}`;
+              const text = `New chat with id: http://${req.headers.host}/chat/${chatId}`;
 
               const requests = options.webhooks.map(async (webhook) => {
                 return fetch(webhook, {
