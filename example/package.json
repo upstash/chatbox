@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@upstash/chatbox": "../",
+    "@upstash/chatbox": "../chatbox/dist",
     "@upstash/redis": "^1.1.0",
     "next": "12.1.5",
     "react": "17.0.2",

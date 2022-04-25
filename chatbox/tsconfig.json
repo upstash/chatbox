@@ -16,9 +16,5 @@
     "allowSyntheticDefaultImports": true,
     "emitDeclarationOnly": true,
     "outDir": "dist"
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx"
-  ],
+  }
 }

@@ -2,9 +2,8 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
   entry: {
-    widget: "./src/components/Widget/index.tsx",
-    admin: "./src/components/Admin/index.tsx",
-    api: "./src/api.ts",
+    ui: "./package/index.ts",
+    api: "./package/api.ts",
   },
   format: ["cjs", "esm"],
   clean: true,
