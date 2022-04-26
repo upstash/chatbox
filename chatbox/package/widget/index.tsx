@@ -6,20 +6,31 @@ import { ChatBoxProvider } from "./store";
 export interface IChatBoxWidget {
   themeColor?: string;
   textColor?: string;
-  autoMessage?: null | string | React.ReactElement;
-  title?: null | string | React.ReactElement;
-  description?: null | string | React.ReactElement;
+  autoMessage?: string;
+  title?: string;
+  description?: string;
   showOnInitial?: boolean;
-  children?: React.ReactElement;
+  customIcon?: React.ReactElement;
 }
 
 export default function ChatBox({
   themeColor = "#2d00c6",
   textColor = "#fff",
+  autoMessage,
+  title,
+  description,
   showOnInitial = false,
+  customIcon,
 }: IChatBoxWidget) {
   return (
-    <ChatBoxProvider showOnInitial={showOnInitial}>
+    <ChatBoxProvider
+      themeColor={themeColor}
+      textColor={textColor}
+      autoMessage={autoMessage}
+      title={title}
+      description={description}
+      showOnInitial={showOnInitial}
+    >
       <div className="chatbox">
         <div
           className="chatbox-widget-root"
@@ -29,7 +40,7 @@ export default function ChatBox({
             "--color-text": textColor,
           }}
         >
-          <TriggerButton />
+          <TriggerButton>{customIcon}</TriggerButton>
           <Modal />
         </div>
       </div>

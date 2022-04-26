@@ -2,7 +2,15 @@ import React, { createContext, useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 
 interface IChatBoxContext {
+  themeColor?: string;
+  textColor?: string;
+
+  autoMessage?: string;
+  title?: string;
+  description?: string;
+
   showOnInitial: boolean;
+
   isModalShow: boolean;
   onModalShow: (state: boolean) => void;
 
@@ -19,11 +27,21 @@ const defaultState = {
 const ChatBoxContext = createContext<IChatBoxContext>(defaultState);
 
 export function ChatBoxProvider({
-  children,
+  themeColor,
+  textColor,
+  autoMessage,
+  title,
+  description,
   showOnInitial,
+  children,
 }: {
-  children: any;
+  themeColor?: string;
+  textColor?: string;
+  autoMessage?: string;
+  title?: string;
+  description?: string;
   showOnInitial: boolean;
+  children: any;
 }) {
   // default is 24 hours
   function setWithExpiry(
@@ -135,6 +153,13 @@ export function ChatBoxProvider({
   return (
     <ChatBoxContext.Provider
       value={{
+        themeColor,
+        textColor,
+
+        autoMessage,
+        title,
+        description,
+
         showOnInitial,
 
         isModalShow,
