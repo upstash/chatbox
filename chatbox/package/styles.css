@@ -1,5 +1,5 @@
 .chatbox {
-  --color-primary: #00bcd4;
+  --color-primary: #000;
   --color-text: #fff;
 
   font-size: 15px;
@@ -46,7 +46,7 @@
 }
 
 .chatbox-chat-message.chatbox-chat-message-out span {
-  background-color: #eaeaea;
+  background-color: #eee;
 }
 
 .chatbox-chat-message.chatbox-chat-message-in {
@@ -162,8 +162,8 @@
 
 .chatbox-admin-header {
   padding: 1rem;
-  color: #fff;
-  background-color: #000;
+  color: var(--color-text);
+  background-color: var(--color-primary);
 }
 
 
