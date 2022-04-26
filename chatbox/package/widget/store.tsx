@@ -16,7 +16,7 @@ interface IChatBoxContext {
 
   chat: string[];
   message: string;
-  onChangeMessage: (message: string) => void;
+  setMessage: (message: string) => void;
   onSendMessage: () => void;
 }
 
@@ -135,10 +135,6 @@ export function ChatBoxProvider({
     setIsModalShow(status);
   };
 
-  const onChangeMessage = (value: string) => {
-    setMessage(value);
-  };
-
   useEffect(() => {
     if (!chatInitiated || !isModalShow) return;
 
@@ -167,7 +163,7 @@ export function ChatBoxProvider({
 
         chat,
         message,
-        onChangeMessage,
+        setMessage,
         onSendMessage,
       }}
     >

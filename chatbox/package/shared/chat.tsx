@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
-import FeedbackContext from "../store";
+import React from "react";
 
-interface IChatBoxAdminChat {}
+interface IChatBoxAdminChat {
+  chat: string[];
+}
 
-export default function Chat(props: IChatBoxAdminChat) {
-  const { chat } = useContext(FeedbackContext);
-
+export default function Chat({ chat }: IChatBoxAdminChat) {
   function parseString(str: string) {
     let sender = str.substring(0, 1);
     let message = str.substring(2);

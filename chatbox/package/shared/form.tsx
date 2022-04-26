@@ -1,13 +1,17 @@
-import React, { useContext } from "react";
-import FeedbackContext from "../store";
+import React from "react";
 import TextareaAutosize from "react-textarea-autosize";
 
-interface IChatBoxAdminForm {}
+interface IChatBoxAdminForm {
+  message: string;
+  setMessage: (message: string) => void;
+  onSendMessage: () => void;
+}
 
-export default function Form(props: IChatBoxAdminForm) {
-  const { message, onChangeMessage, onSendMessage } =
-    useContext(FeedbackContext);
-
+export default function Form({
+  message,
+  setMessage,
+  onSendMessage,
+}: IChatBoxAdminForm) {
   return (
     <form
       className="chatbox-form"
@@ -24,7 +28,7 @@ export default function Form(props: IChatBoxAdminForm) {
         className="chatbox-form-message"
         maxRows={5}
         value={message}
-        onChange={(event) => onChangeMessage(event.target.value)}
+        onChange={(event) => setMessage(event.target.value)}
       />
 
       <div>

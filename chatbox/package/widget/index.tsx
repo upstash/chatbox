@@ -31,15 +31,15 @@ export default function ChatBox({
       description={description}
       showOnInitial={showOnInitial}
     >
-      <div className="chatbox">
-        <div
-          className="chatbox-widget-root"
-          style={{
-            // @ts-ignore
-            "--color-primary": themeColor,
-            "--color-text": textColor,
-          }}
-        >
+      <div
+        className="chatbox"
+        style={{
+          // @ts-ignore
+          "--color-primary": themeColor,
+          "--color-text": textColor,
+        }}
+      >
+        <div className="chatbox-widget-root">
           <TriggerButton>{customIcon}</TriggerButton>
           <Modal />
         </div>

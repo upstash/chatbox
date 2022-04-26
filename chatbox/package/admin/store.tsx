@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 
 interface IChatBoxContext {
+  id: string;
   chat: string[];
   message: string;
   setMessage: (message: string) => void;
@@ -54,6 +55,7 @@ export function ChatBoxProvider({
   return (
     <ChatBoxContext.Provider
       value={{
+        id,
         chat,
         message,
         setMessage,
