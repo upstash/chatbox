@@ -51,6 +51,17 @@ export default function MyApp({ Component, pageProps }) {
 }
 ```
 
+The options can be passed as React props
+
+| key              | type                 | default                                  |
+| ---------------- | -------------------- | ---------------------------------------- |
+| `themeColor?`    | `string`             | #2d00c6                                  |
+| `textColor?`     | `string`             | #fff                                     |
+| `title?`         | `string`             | Hi 👋                                    |
+| `description?`   | `string`             | Ask us anything, or share your feedback. |
+| `showOnInitial?` | `boolean`            | false                                    |
+| `customIcon?`    | `React.ReactElement` |                                          |
+
 ### 4. Admin Dashboard
 
 ```js
@@ -80,5 +91,3 @@ const ChatBoxAPI = createChatBoxAPI({
 
 export default ChatBoxAPI;
 ```
-
-
