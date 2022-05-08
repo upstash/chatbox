@@ -76,6 +76,7 @@ const ChatBoxAdmin = dynamic({
 
 export default function () {
   return <ChatBoxAdmin />;
+}
 ```
 
 ### 5. Create API
@@ -86,7 +87,7 @@ export default function () {
 import createChatBoxAPI from "@upstash/chatbox/api";
 
 const ChatBoxAPI = createChatBoxAPI({
-  webhooks: [process.env.SLACK_WEBHOOK_URL!],
+  webhooks: [process.env.SLACK_WEBHOOK_URL],
 });
 
 export default ChatBoxAPI;
