@@ -1,5 +1,9 @@
 import Head from "next/head";
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
+import Router from 'next/router'
+import { NextFetchEvent } from "next/server";
+import next from "next";
 
 const ChatBoxWidget = dynamic({
   // @ts-ignore
@@ -7,7 +11,32 @@ const ChatBoxWidget = dynamic({
   ssr: false,
 });
 
+
 export default function Home() {
+
+  const [chatID, setChatID] = useState(null)
+
+  useEffect(() => {
+    getID()
+  }, [chatID])
+
+
+  function getID() {
+    const storageFetched = localStorage.getItem("chatbox_id")
+    if (storageFetched) {
+      let id = JSON.parse(storageFetched!).value
+      console.log(11, id)
+      setChatID(id)
+      return id
+    }
+    else {
+      setChatID(null)
+      return null
+    }
+  }
+
+
+
   return (
     <>
       <Head>
@@ -16,7 +45,40 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <ChatBoxWidget />
+
+      <h1>Free Live Chat Widget for Next.js Apps with Upstash</h1>
+
+      <h2>Send a message from the widget!</h2>
+
+
+
+      <h2>Visit  <a target="_blank" href={"chat/" + chatID} onClick={
+        (e) => {
+          if (!chatID) {
+            let id = getID()
+            e.preventDefault()
+            if (id) {
+              console.log(2)
+              window.open("chat/" + id, "_blank")
+            }
+            else {
+              alert("Initiate a chat on the widget first :)")
+            }
+          }
+        }
+      }>Admin Panel</a> to interact with the chat!
+        (Redirection link will also posted to the Slack channel in the format of {"<domain>/chat/<chatID>"})
+      </h2>
+
+      <br />
+
+      <h3>Deploy this project on Vercel with Upstash Integration!</h3>
+      <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fupstash%2Fchatbox%2Ftree%2Fenchancements%2Fexample&env=SLACK_WEBHOOK_URL&integration-ids=oac_V3R1GIpkoJorr6fqyiwdhl17"><img src="https://vercel.com/button" alt="Deploy with Vercel"/></a>
+      <h3>Don't forget to add your slack webhook as environment variable.</h3>
+
+      <h3> See the <a href="https://github.com/upstash/chatbox">Github Repo</a> to inspect and see how to configure Slack Webhook!</h3>      
+
+      <ChatBoxWidget showOnInitial={true} />
     </>
   );
 }
