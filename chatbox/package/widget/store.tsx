@@ -75,11 +75,14 @@ export function ChatBoxProvider({
 
   let initialID = "visitor";
   const localID = getWithExpiry("chatbox_id");
-  console.log("localID", localID);
+  const hasBeen5MinutesLocal = getWithExpiry("hasBeen5Minutes");
+
 
   const [UID, setUID] = useState(localID ? localID : initialID);
   const [chatInitiated, setChatInitiated] = useState(localID ? true : false);
 
+  const [hasBeen5Minutes, setHasBeen5Minutes] = useState(hasBeen5MinutesLocal ? true : false)
+  
   const [chat, setChat] = useState([]);
   const [message, setMessage] = useState("");
 
@@ -94,6 +97,7 @@ export function ChatBoxProvider({
   const onSendMessage = async () => {
     try {
       let id = UID;
+      let chatInitiatedTemp = chatInitiated;
 
       if (!chatInitiated) {
         id = nanoid(10);
@@ -106,11 +110,34 @@ export function ChatBoxProvider({
 
         if (initResponse.status !== 200) {
           localStorage.removeItem("chatbox_id");
+          localStorage.removeItem("hasBeen5Minutes");
           throw new Error("Failed to init chat");
         }
 
         setChatInitiated(true);
         setUID(id);
+      }
+
+      // If it has been 5 minutes after the last message, resend notification to slack.
+      const hasBeen5Minutes = getWithExpiry("hasBeen5Minutes");
+
+      // setWithExpiry("hasBeen5Minutes", "false", 5*60*1000);
+      setWithExpiry("hasBeen5Minutes", "false", 5 * 1000);
+
+      setHasBeen5Minutes(false);
+      if (!hasBeen5Minutes && chatInitiatedTemp) {
+
+        const initResponse = await fetch(`/api/chatbox/slack/${id}`, {
+          method: "POST",
+          body: JSON.stringify({ reminder: "Reminder" }),
+        });
+
+        if (initResponse.status !== 200) {
+          localStorage.removeItem("hasBeen5Minutes");
+          setHasBeen5Minutes(true);
+          throw new Error("Failed to post reminder.");
+        }
+
       }
 
       let replyText = "i:" + message;
@@ -144,7 +171,7 @@ export function ChatBoxProvider({
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [chatInitiated, isModalShow, UID]);
+  }, [chatInitiated, isModalShow, UID, hasBeen5Minutes]);
 
   return (
     <ChatBoxContext.Provider

@@ -25,7 +25,6 @@ export default function Home() {
     const storageFetched = localStorage.getItem("chatbox_id")
     if (storageFetched) {
       let id = JSON.parse(storageFetched!).value
-      console.log(11, id)
       setChatID(id)
       return id
     }
@@ -78,7 +77,7 @@ export default function Home() {
 
       <h3> See the <a href="https://github.com/upstash/chatbox">Github Repo</a> to inspect and see how to configure Slack Webhook!</h3>      
 
-      <ChatBoxWidget />
+      <ChatBoxWidget showOnInitial/>
     </>
   );
 }
