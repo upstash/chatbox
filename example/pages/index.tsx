@@ -77,7 +77,7 @@ export default function Home() {
 
       <h3> See the <a href="https://github.com/upstash/chatbox">Github Repo</a> to inspect and see how to configure Slack Webhook!</h3>      
 
-      <ChatBoxWidget showOnInitial/>
+      <ChatBoxWidget />
     </>
   );
 }
