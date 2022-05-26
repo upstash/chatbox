@@ -8,7 +8,7 @@ export default function Header() {
     <div className="chatbox-widget-header">
       <h2>{title ? title : "Hi 👋"}</h2>
       <p>
-        {description ? description : "Ask us anything, or share your feedback."}
+        {description ? description : "Ask us anything, or share your feedback.22"}
       </p>
     </div>
   );

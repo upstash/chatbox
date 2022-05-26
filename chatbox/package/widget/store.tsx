@@ -18,6 +18,8 @@ interface IChatBoxContext {
   message: string;
   setMessage: (message: string) => void;
   onSendMessage: () => void;
+  setEmail: (email: string) => void;
+  onSendEmail: () => void;
 }
 
 const defaultState = {
@@ -75,13 +77,20 @@ export function ChatBoxProvider({
 
   let initialID = "visitor";
   const localID = getWithExpiry("chatbox_id");
+  const emailSentFromStorage = getWithExpiry("emailSent");
+
   console.log("localID", localID);
 
   const [UID, setUID] = useState(localID ? localID : initialID);
   const [chatInitiated, setChatInitiated] = useState(localID ? true : false);
 
+  console.log("emailSentFromStorage:", emailSentFromStorage)
+  const [emailSent, setEmailSent] = useState(emailSentFromStorage == "true" ? true : false);
+
+
   const [chat, setChat] = useState([]);
   const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");
 
   const [isModalShow, setIsModalShow] = useState(showOnInitial);
 
@@ -131,6 +140,60 @@ export function ChatBoxProvider({
     }
   };
 
+  const onSendEmail = async () => {
+    try {
+      let id = UID;
+
+      if (!chatInitiated) {
+        console.log(2)
+
+        id = nanoid(10);
+
+        setWithExpiry("chatbox_id", id);
+        setUID(id);
+      }
+
+      if (emailSent) {
+        console.log(1)
+        // await fetchList(id);
+        return setEmail("");
+      }
+      else {
+        console.log("aaaaaaaaaa:", 3)
+
+        const replyResponse = await fetch(`/api/chatbox/slack-email/${id}`, {
+          method: "POST",
+          // body: JSON.stringify({ id: id, email: email }),
+          body: JSON.stringify({ id: id, email: email }),
+
+        });
+
+        console.log("5: ", replyResponse)
+
+        if (replyResponse.status !== 200) {
+          throw new Error("Failed to send email address");
+        }
+
+        console.log(11)
+        setWithExpiry("emailSent", "true");
+        console.log(12)
+
+        setEmailSent(true);
+        console.log(13)
+
+        // await fetchList(id);
+        console.log(14)
+
+        return setEmail("");
+
+      }
+
+    } catch (err) {
+      console.log("inside err");
+      alert(err);
+    }
+  };
+
   const onModalShow = (status: boolean) => {
     setIsModalShow(status);
   };
@@ -165,6 +228,7 @@ export function ChatBoxProvider({
         message,
         setMessage,
         onSendMessage,
+        onSendEmail,
       }}
     >
       {children}

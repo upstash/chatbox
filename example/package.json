@@ -6,7 +6,8 @@
     "dev": "next dev --port 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "reconfigure": "rm -rf node_modules/ .next/ && yarn && next dev --port 3001"
   },
   "dependencies": {
     "@upstash/chatbox": "../chatbox/dist",
