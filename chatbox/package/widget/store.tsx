@@ -79,12 +79,10 @@ export function ChatBoxProvider({
   const localID = getWithExpiry("chatbox_id");
   const emailSentFromStorage = getWithExpiry("emailSent");
 
-  console.log("localID", localID);
 
   const [UID, setUID] = useState(localID ? localID : initialID);
   const [chatInitiated, setChatInitiated] = useState(localID ? true : false);
 
-  console.log("emailSentFromStorage:", emailSentFromStorage)
   const [emailSent, setEmailSent] = useState(emailSentFromStorage == "true" ? true : false);
 
 
@@ -145,7 +143,6 @@ export function ChatBoxProvider({
       let id = UID;
 
       if (!chatInitiated) {
-        console.log(2)
 
         id = nanoid(10);
 
@@ -154,12 +151,10 @@ export function ChatBoxProvider({
       }
 
       if (emailSent) {
-        console.log(1)
         // await fetchList(id);
         return setEmail("");
       }
       else {
-        console.log("aaaaaaaaaa:", 3)
 
         const replyResponse = await fetch(`/api/chatbox/slack-email/${id}`, {
           method: "POST",
@@ -168,28 +163,22 @@ export function ChatBoxProvider({
 
         });
 
-        console.log("5: ", replyResponse)
 
         if (replyResponse.status !== 200) {
           throw new Error("Failed to send email address");
         }
 
-        console.log(11)
         setWithExpiry("emailSent", "true");
-        console.log(12)
 
         setEmailSent(true);
-        console.log(13)
 
         // await fetchList(id);
-        console.log(14)
 
         return setEmail("");
 
       }
 
     } catch (err) {
-      console.log("inside err");
       alert(err);
     }
   };

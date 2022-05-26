@@ -37,7 +37,6 @@ export default function createChatBoxAPI(options: { webhooks: string[] }) {
             // POST: /slack-email/[id]
             case "POST":
               const email = JSON.parse(req.body).email
-              console.log("email:", email, typeof req.body, req.body, chatId);
               const text = `A user left their email address ${email} with chat id: http://${req.headers.host}/chat/${chatId}`;
 
               const requests = options.webhooks.map(async (webhook) => {
