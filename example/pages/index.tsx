@@ -25,7 +25,6 @@ export default function Home() {
     const storageFetched = localStorage.getItem("chatbox_id")
     if (storageFetched) {
       let id = JSON.parse(storageFetched!).value
-      console.log(11, id)
       setChatID(id)
       return id
     }
@@ -58,7 +57,6 @@ export default function Home() {
             let id = getID()
             e.preventDefault()
             if (id) {
-              console.log(2)
               window.open("chat/" + id, "_blank")
             }
             else {
