@@ -57,7 +57,6 @@ export default function Home() {
             let id = getID()
             e.preventDefault()
             if (id) {
-              console.log(2)
               window.open("chat/" + id, "_blank")
             }
             else {
