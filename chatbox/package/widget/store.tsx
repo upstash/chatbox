@@ -118,6 +118,8 @@ export function ChatBoxProvider({
         if (initResponse.status !== 200) {
           localStorage.removeItem("chatbox_id");
           localStorage.removeItem("hasBeen5Minutes");
+          localStorage.removeItem("emailSent");
+          
           throw new Error("Failed to init chat");
         }
 
@@ -173,6 +175,7 @@ export function ChatBoxProvider({
         id = nanoid(10);
 
         setWithExpiry("chatbox_id", id);
+        setWithExpiry("hasBeen5Minutes", "false", 5 * 60 * 1000);
         setUID(id);
       }
 
@@ -184,12 +187,10 @@ export function ChatBoxProvider({
 
         const replyResponse = await fetch(`/api/chatbox/slack-email/${id}`, {
           method: "POST",
-          // body: JSON.stringify({ id: id, email: email }),
-          body: JSON.stringify({ id: id, email: email }),
-
+          body: JSON.stringify({ email: "test" }),
+          
         });
-
-
+        
         if (replyResponse.status !== 200) {
           throw new Error("Failed to send email address");
         }
@@ -198,10 +199,7 @@ export function ChatBoxProvider({
 
         setEmailSent(true);
 
-        // await fetchList(id);
-
         return setEmail("");
-
       }
 
     } catch (err) {
@@ -243,6 +241,7 @@ export function ChatBoxProvider({
         message,
         setMessage,
         onSendMessage,
+        setEmail,
         onSendEmail,
       }}
     >
