@@ -121,8 +121,7 @@ export function ChatBoxProvider({
       // If it has been 5 minutes after the last message, resend notification to slack.
       const hasBeen5Minutes = getWithExpiry("hasBeen5Minutes");
 
-      // setWithExpiry("hasBeen5Minutes", "false", 5*60*1000);
-      setWithExpiry("hasBeen5Minutes", "false", 5 * 1000);
+      setWithExpiry("hasBeen5Minutes", "false", 5*60*1000);
 
       setHasBeen5Minutes(false);
       if (!hasBeen5Minutes && chatInitiatedTemp) {
