@@ -1,4 +1,4 @@
-# Free Live Chat Widget for Next.js Apps
+# ChatBox Widget for Next.js Apps
 
 Create a ChatBox Widget for your Next.js site like Intercom live chat. When your website's visitor starts a session, the chat link is sent to your Slack channel.  
 
