@@ -47,6 +47,8 @@ interface IChatBoxContext {
   message: string;
   setMessage: (message: string) => void;
   onSendMessage: () => void;
+
+  isEmailSent: boolean;
   email: string;
   setEmail: (email: string) => void;
   onSendEmail: () => void;
@@ -81,7 +83,7 @@ export function ChatBoxProvider({
   const [UID, setUID] = useState(localID ? localID : initialID);
   const [chatInitiated, setChatInitiated] = useState(localID ? true : false);
 
-  const [emailSent, setEmailSent] = useState(getWithExpiry("emailSent"));
+  const [isEmailSent, setIsEmailSent] = useState(getWithExpiry("emailSent"));
 
   const [hasBeen5Minutes, setHasBeen5Minutes] = useState(
     getWithExpiry("hasBeen5Minutes")
@@ -171,6 +173,8 @@ export function ChatBoxProvider({
 
   const onSendEmail = async () => {
     try {
+      if (isEmailSent) return;
+
       let id = UID;
 
       if (!chatInitiated) {
@@ -180,8 +184,6 @@ export function ChatBoxProvider({
         setWithExpiry("hasBeen5Minutes", "false", 5 * 60 * 1000);
         setUID(id);
       }
-
-      if (emailSent) return;
 
       const response = await fetch(`/api/chatbox/slack-email/${id}`, {
         method: "POST",
@@ -196,7 +198,7 @@ export function ChatBoxProvider({
       }
 
       setWithExpiry("emailSent", "true");
-      setEmailSent(true);
+      setIsEmailSent(true);
     } catch (err) {
       alert(err);
     }
@@ -234,6 +236,8 @@ export function ChatBoxProvider({
         message,
         setMessage,
         onSendMessage,
+
+        isEmailSent,
         email,
         setEmail,
         onSendEmail,

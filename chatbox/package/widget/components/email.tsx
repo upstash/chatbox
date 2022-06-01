@@ -2,7 +2,15 @@ import React, { useContext } from "react";
 import FeedbackContext from "../store";
 
 export default function Email() {
-  const { email, setEmail, onSendEmail } = useContext(FeedbackContext);
+  const { isEmailSent, email, setEmail, onSendEmail } =
+    useContext(FeedbackContext);
+
+  if (isEmailSent)
+    return (
+      <div className="chatbox-widget-email-form">
+        Thank you for your email. We'll be in touch as soon as possible.
+      </div>
+    );
 
   return (
     <form
