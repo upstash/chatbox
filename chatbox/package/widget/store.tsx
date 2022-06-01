@@ -3,16 +3,18 @@ import { nanoid } from "nanoid";
 
 function getWithExpiry(key: string) {
   const itemStr = localStorage.getItem(key);
-  if (!itemStr) {
-    return null;
-  }
+
+  if (!itemStr) return null;
+
   const item = JSON.parse(itemStr);
   const now = new Date();
+
   if (now.getTime() > item.expiry) {
     localStorage.removeItem(key);
     window.location.reload();
     return null;
   }
+
   return item.value;
 }
 
@@ -24,6 +26,7 @@ function setWithExpiry(key: string, value: string, ttl = 24 * 60 * 60 * 1000) {
     value: value,
     expiry: now.getTime() + ttl,
   };
+
   localStorage.setItem(key, JSON.stringify(item));
 }
 
@@ -74,18 +77,14 @@ export function ChatBoxProvider({
 }) {
   let initialID = "visitor";
   const localID = getWithExpiry("chatbox_id");
-  const emailSentFromStorage = getWithExpiry("emailSent");
-  const hasBeen5MinutesLocal = getWithExpiry("hasBeen5Minutes");
 
   const [UID, setUID] = useState(localID ? localID : initialID);
   const [chatInitiated, setChatInitiated] = useState(localID ? true : false);
 
-  const [emailSent, setEmailSent] = useState(
-    emailSentFromStorage == "true" ? true : false
-  );
+  const [emailSent, setEmailSent] = useState(getWithExpiry("emailSent"));
 
   const [hasBeen5Minutes, setHasBeen5Minutes] = useState(
-    hasBeen5MinutesLocal ? true : false
+    getWithExpiry("hasBeen5Minutes")
   );
 
   const [chat, setChat] = useState([]);
@@ -182,28 +181,22 @@ export function ChatBoxProvider({
         setUID(id);
       }
 
-      if (emailSent) {
-        // await fetchList(id);
-        return setEmail("");
-      } else {
-        const replyResponse = await fetch(`/api/chatbox/slack-email/${id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: "test" }),
-        });
+      if (emailSent) return;
 
-        if (replyResponse.status !== 200) {
-          throw new Error("Failed to send email address");
-        }
+      const response = await fetch(`/api/chatbox/slack-email/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
 
-        setWithExpiry("emailSent", "true");
-
-        setEmailSent(true);
-
-        return setEmail("");
+      if (response.status !== 200) {
+        throw new Error("Failed to send email address");
       }
+
+      setWithExpiry("emailSent", "true");
+      setEmailSent(true);
     } catch (err) {
       alert(err);
     }

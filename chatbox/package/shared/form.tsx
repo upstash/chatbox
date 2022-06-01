@@ -29,7 +29,12 @@ export default function Form({
         maxRows={5}
         value={message}
         onChange={(event) => setMessage(event.target.value)}
-        onKeyUp={(event) => event.key === "Enter" && onSendMessage()}
+        onKeyUp={(event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            onSendMessage();
+          }
+        }}
       />
 
       <div>

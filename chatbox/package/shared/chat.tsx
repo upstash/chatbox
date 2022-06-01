@@ -1,4 +1,5 @@
 import React from "react";
+import Email from "../widget/components/email";
 
 interface IChatBoxAdminChat {
   chat: string[];
@@ -18,11 +19,22 @@ export default function Chat({ chat }: IChatBoxAdminChat) {
       ? "chatbox-chat-message-in"
       : "chatbox-chat-message-out";
 
-    return (
+    const Message = () => (
       <div key={index} className={`chatbox-chat-message ${classNames}`}>
         <span>{parsedStr[1]}</span>
       </div>
     );
+
+    if (index === 0) {
+      return (
+        <div key={index}>
+          <Message />
+          <Email />
+        </div>
+      );
+    }
+
+    return <Message />;
   });
 
   return <div className="chatbox-chat">{Messages}</div>;
