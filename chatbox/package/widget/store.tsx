@@ -80,15 +80,17 @@ export function ChatBoxProvider({
   const emailSentFromStorage = getWithExpiry("emailSent");
   const hasBeen5MinutesLocal = getWithExpiry("hasBeen5Minutes");
 
-
   const [UID, setUID] = useState(localID ? localID : initialID);
   const [chatInitiated, setChatInitiated] = useState(localID ? true : false);
 
-  const [emailSent, setEmailSent] = useState(emailSentFromStorage == "true" ? true : false);
+  const [emailSent, setEmailSent] = useState(
+    emailSentFromStorage == "true" ? true : false
+  );
 
+  const [hasBeen5Minutes, setHasBeen5Minutes] = useState(
+    hasBeen5MinutesLocal ? true : false
+  );
 
-  const [hasBeen5Minutes, setHasBeen5Minutes] = useState(hasBeen5MinutesLocal ? true : false)
-  
   const [chat, setChat] = useState([]);
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
@@ -119,7 +121,7 @@ export function ChatBoxProvider({
           localStorage.removeItem("chatbox_id");
           localStorage.removeItem("hasBeen5Minutes");
           localStorage.removeItem("emailSent");
-          
+
           throw new Error("Failed to init chat");
         }
 
@@ -130,13 +132,16 @@ export function ChatBoxProvider({
       // If it has been 5 minutes after the last message, resend notification to slack.
       const hasBeen5Minutes = getWithExpiry("hasBeen5Minutes");
 
-      setWithExpiry("hasBeen5Minutes", "false", 5*60*1000);
+      setWithExpiry("hasBeen5Minutes", "false", 5 * 60 * 1000);
 
       setHasBeen5Minutes(false);
-      if (!hasBeen5Minutes && chatInitiatedTemp) {
 
+      if (!hasBeen5Minutes && chatInitiatedTemp) {
         const initResponse = await fetch(`/api/chatbox/slack/${id}`, {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({ reminder: "Reminder" }),
         });
 
@@ -145,13 +150,15 @@ export function ChatBoxProvider({
           setHasBeen5Minutes(true);
           throw new Error("Failed to post reminder.");
         }
-
       }
 
       let replyText = "i:" + message;
 
       const replyResponse = await fetch(`/api/chatbox/chat/${id}`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ text: replyText }),
       });
 
@@ -171,7 +178,6 @@ export function ChatBoxProvider({
       let id = UID;
 
       if (!chatInitiated) {
-
         id = nanoid(10);
 
         setWithExpiry("chatbox_id", id);
@@ -182,15 +188,15 @@ export function ChatBoxProvider({
       if (emailSent) {
         // await fetchList(id);
         return setEmail("");
-      }
-      else {
-
+      } else {
         const replyResponse = await fetch(`/api/chatbox/slack-email/${id}`, {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({ email: "test" }),
-          
         });
-        
+
         if (replyResponse.status !== 200) {
           throw new Error("Failed to send email address");
         }
@@ -201,7 +207,6 @@ export function ChatBoxProvider({
 
         return setEmail("");
       }
-
     } catch (err) {
       alert(err);
     }

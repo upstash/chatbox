@@ -33,6 +33,9 @@ export function ChatBoxProvider({
 
     await fetch(`/api/chatbox/chat/${id}`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ text: replyText }),
     });
 

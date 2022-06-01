@@ -9,6 +9,7 @@ export default function createChatBoxAPI(options: { webhooks: string[] }) {
 
     const api = req.query.chatbox[0];
     const chatId = req.query.chatbox[1];
+    const host = `http://${req.headers.host}`;
 
     try {
       if (!chatId) throw new Error("Missing chatId");
@@ -18,69 +19,67 @@ export default function createChatBoxAPI(options: { webhooks: string[] }) {
           switch (method) {
             // GET: /chat/[id]
             case "GET":
-              const data = await redis.lrange(chatId, 0, 2 ** 32 - 1);
-              return res.status(200).json({ chatData: data });
+              const chatData = await redis.lrange(chatId, 0, 2 ** 32 - 1);
+              return res.status(200).json({ chatData });
 
             // POST: /chat/[id]
             case "POST":
-              const { text } = JSON.parse(req.body);
+              const chatText = req.body.text;
 
-              const response = await redis.rpush(chatId, text);
+              const response = await redis.rpush(chatId, chatText);
               return res.status(200).json({ response });
 
             default:
               throw new Error("Method not allowed");
           }
-          
+
         case "slack-email":
-          switch (method) {
-            // POST: /slack-email/[id]
-            case "POST":
-              const email = JSON.parse(req.body).email
-              const text = `A user left their email address ${email} with chat id: http://${req.headers.host}/chat/${chatId}`;
+          // POST: /slack-email/[id]
+          if (method !== "POST") throw new Error("Method not allowed");
 
-              const requests = options.webhooks.map(async (webhook) => {
-                return fetch(webhook, {
-                  method: "POST",
-                  body: JSON.stringify({ text }),
-                  headers: { "Content-Type": "application/json" },
-                });
-              });
+          const slackEmail = req.body.email;
+          if (!slackEmail) throw new Error("Missing email");
 
+          const text = `A user left their email address ${slackEmail} with chat id: ${host}/chat/${chatId}`;
 
-              await Promise.all(requests);
+          const requestsEmail = options.webhooks.map(async (webhook) => {
+            return fetch(webhook, {
+              method: "POST",
+              body: JSON.stringify({ text }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+          });
 
-              return res.status(200).json({ response: "ok" });
+          await Promise.all(requestsEmail);
 
-            default:
-              throw new Error("Method not allowed");
-          }
+          return res.status(200).json({ response: "ok" });
 
         case "slack":
-          switch (method) {
-            // POST: /slack/[id]
-            case "POST":
-              let text = `New chat with id: http://${req.headers.host}/chat/${chatId}`;
+          // POST: /slack/[id]
+          if (method !== "POST") throw new Error("Method not allowed");
 
-              if (req.body) {
-                text = `Old chat with id: http://${req.headers.host}/chat/${chatId} has a new message!`
-              }
+          let notifyText = `New chat with id: ${host}/chat/${chatId}`;
 
-              const requests = options.webhooks.map(async (webhook) => {
-                return fetch(webhook, {
-                  method: "POST",
-                  body: JSON.stringify({ text }),
-                  headers: { "Content-Type": "application/json" },
-                });
-              });
-
-              await Promise.all(requests);
-
-              return res.status(200).json({ response: "ok" });
-
-            default:
-              throw new Error("Method not allowed");
+          if (req.body) {
+            notifyText = `Old chat with id: ${host}/chat/${chatId} has a new message!`;
           }
+
+          const requestsNotify = options.webhooks.map(async (webhook) => {
+            return fetch(webhook, {
+              method: "POST",
+              body: JSON.stringify({ text: notifyText }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+          });
+
+          await Promise.all(requestsNotify);
+
+          return res.status(200).json({ response: "ok" });
+
         default:
           throw new Error("Method not allowed");
       }

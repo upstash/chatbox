@@ -15,7 +15,10 @@ export default function Modal() {
       <Header />
       <Chat chat={chat} />
       <form onSubmit={onSendEmail}>
-        <input type="text" placeholder="Give your email for us to reach you and end session."></input>
+        <input
+          type="text"
+          placeholder="Give your email for us to reach you and end session."
+        ></input>
       </form>
 
       <Form
