@@ -13,7 +13,7 @@ export default function Modal() {
   return (
     <div className="chatbox-widget-modal">
       <Header />
-      <Chat chat={chat} />
+      <Chat chat={chat} emailForm />
 
       <Form
         message={message}

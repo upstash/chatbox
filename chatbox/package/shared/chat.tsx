@@ -3,9 +3,10 @@ import Email from "../widget/components/email";
 
 interface IChatBoxAdminChat {
   chat: string[];
+  emailForm?: boolean;
 }
 
-export default function Chat({ chat }: IChatBoxAdminChat) {
+export default function Chat({ chat, emailForm = false }: IChatBoxAdminChat) {
   function parseString(str: string) {
     let sender = str.substring(0, 1);
     let message = str.substring(2);
@@ -25,7 +26,7 @@ export default function Chat({ chat }: IChatBoxAdminChat) {
       </div>
     );
 
-    if (index === 0) {
+    if (emailForm && index === 0) {
       return (
         <div key={index}>
           <Message />
