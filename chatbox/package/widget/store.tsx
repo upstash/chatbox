@@ -1,6 +1,32 @@
 import React, { createContext, useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 
+function getWithExpiry(key: string) {
+  const itemStr = localStorage.getItem(key);
+  if (!itemStr) {
+    return null;
+  }
+  const item = JSON.parse(itemStr);
+  const now = new Date();
+  if (now.getTime() > item.expiry) {
+    localStorage.removeItem(key);
+    window.location.reload();
+    return null;
+  }
+  return item.value;
+}
+
+// default is 24 hours
+function setWithExpiry(key: string, value: string, ttl = 24 * 60 * 60 * 1000) {
+  const now = new Date();
+
+  const item = {
+    value: value,
+    expiry: now.getTime() + ttl,
+  };
+  localStorage.setItem(key, JSON.stringify(item));
+}
+
 interface IChatBoxContext {
   themeColor?: string;
   textColor?: string;
@@ -18,6 +44,7 @@ interface IChatBoxContext {
   message: string;
   setMessage: (message: string) => void;
   onSendMessage: () => void;
+  email: string;
   setEmail: (email: string) => void;
   onSendEmail: () => void;
 }
@@ -45,36 +72,6 @@ export function ChatBoxProvider({
   showOnInitial: boolean;
   children: any;
 }) {
-  // default is 24 hours
-  function setWithExpiry(
-    key: string,
-    value: string,
-    ttl = 24 * 60 * 60 * 1000
-  ) {
-    const now = new Date();
-
-    const item = {
-      value: value,
-      expiry: now.getTime() + ttl,
-    };
-    localStorage.setItem(key, JSON.stringify(item));
-  }
-
-  function getWithExpiry(key: string) {
-    const itemStr = localStorage.getItem(key);
-    if (!itemStr) {
-      return null;
-    }
-    const item = JSON.parse(itemStr);
-    const now = new Date();
-    if (now.getTime() > item.expiry) {
-      localStorage.removeItem(key);
-      window.location.reload();
-      return null;
-    }
-    return item.value;
-  }
-
   let initialID = "visitor";
   const localID = getWithExpiry("chatbox_id");
   const emailSentFromStorage = getWithExpiry("emailSent");
@@ -232,11 +229,9 @@ export function ChatBoxProvider({
       value={{
         themeColor,
         textColor,
-
         autoMessage,
         title,
         description,
-
         showOnInitial,
 
         isModalShow,
@@ -246,6 +241,7 @@ export function ChatBoxProvider({
         message,
         setMessage,
         onSendMessage,
+        email,
         setEmail,
         onSendEmail,
       }}

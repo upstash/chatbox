@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3001",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "reconfigure": "rm -rf node_modules/ .next/ && yarn && next dev --port 3001"
+    "reconfigure": "rm -rf node_modules/ .next/ && yarn && next dev"
   },
   "dependencies": {
     "@upstash/chatbox": "../chatbox/dist",

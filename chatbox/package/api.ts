@@ -40,12 +40,12 @@ export default function createChatBoxAPI(options: { webhooks: string[] }) {
           const slackEmail = req.body.email;
           if (!slackEmail) throw new Error("Missing email");
 
-          const text = `A user left their email address ${slackEmail} with chat id: ${host}/chat/${chatId}`;
+          const notifyEmailText = `A user left their email address ${slackEmail} with chat id: ${host}/chat/${chatId}`;
 
           const requestsEmail = options.webhooks.map(async (webhook) => {
             return fetch(webhook, {
               method: "POST",
-              body: JSON.stringify({ text }),
+              body: JSON.stringify({ text: notifyEmailText }),
               headers: {
                 "Content-Type": "application/json",
               },
@@ -85,6 +85,8 @@ export default function createChatBoxAPI(options: { webhooks: string[] }) {
       }
     } catch (err) {
       let message = err;
+
+      console.log(err);
 
       if (err instanceof TypeError) {
         message = err.message;
