@@ -157,10 +157,16 @@ export default function Home() {
         <h2 className="font-bold text-3xl">Setup</h2>
 
         <p className="mt-4">
-          Kurulum için github readme dosyasına bakabilirsiniz
+          You can refer to the{" "}
+          <a
+            className="underline"
+            target="_blank"
+            href="https://github.com/upstash/chatbox"
+          >
+            github readme
+          </a>{" "}
+          file for installation.
         </p>
-
-        <p>https://github.com/upstash/chatbox</p>
       </div>
 
       <ChatBoxWidget
