@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased text-gray-900 overflow-y-scroll;
+  }
+
+  svg {
+    @apply fill-transparent;
+  }
+
+  a {
+    @apply transition;
+  }
+
+  pre {
+    @apply bg-zinc-800 text-zinc-50 p-6 rounded-lg text-sm
+  }
+}

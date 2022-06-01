@@ -2,7 +2,8 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
   entry: {
-    index: "./package/index.ts",
+    chatbox: "./package/widget/index.tsx",
+    admin: "./package/admin/index.tsx",
     api: "./package/api.ts",
   },
   format: ["cjs", "esm"],

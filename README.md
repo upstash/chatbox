@@ -1,4 +1,4 @@
-# Free Live Chat Widget for Next.js Apps
+# ChatBox Widget for Next.js Apps
 
 Create a ChatBox Widget for your Next.js site like Intercom live chat. When your website's visitor starts a session, the chat link is sent to your Slack channel.  
 
@@ -40,7 +40,7 @@ import "@upstash/chatbox/index.css";
 import dynamic from "next/dynamic";
 
 const ChatBoxWidget = dynamic({
-  loader: () => import("@upstash/chatbox").then((mod) => mod.ChatBoxWidget),
+  loader: () => import("@upstash/chatbox"),
   ssr: false,
 });
 
@@ -73,7 +73,7 @@ The options can be passed as React props
 import dynamic from "next/dynamic";
 
 const ChatBoxAdmin = dynamic({
-  loader: () => import("@upstash/chatbox").then((mod) => mod.ChatBoxAdmin),
+  loader: () => import("@upstash/chatbox"),
   ssr: false,
 });
 

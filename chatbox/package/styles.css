@@ -171,3 +171,19 @@
 .chatbox-widget-header p {
   font-size: 0.9rem;
 }
+
+.chatbox-widget-email-form {
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+  margin-top: 5px;
+
+}
+
+.chatbox-widget-email-form input {
+  background-color: white;
+  padding: 10px;
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 10px;
+}

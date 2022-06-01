@@ -1,6 +1,35 @@
 import React, { createContext, useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 
+function getWithExpiry(key: string) {
+  const itemStr = localStorage.getItem(key);
+
+  if (!itemStr) return null;
+
+  const item = JSON.parse(itemStr);
+  const now = new Date();
+
+  if (now.getTime() > item.expiry) {
+    localStorage.removeItem(key);
+    window.location.reload();
+    return null;
+  }
+
+  return item.value;
+}
+
+// default is 24 hours
+function setWithExpiry(key: string, value: string, ttl = 24 * 60 * 60 * 1000) {
+  const now = new Date();
+
+  const item = {
+    value: value,
+    expiry: now.getTime() + ttl,
+  };
+
+  localStorage.setItem(key, JSON.stringify(item));
+}
+
 interface IChatBoxContext {
   themeColor?: string;
   textColor?: string;
@@ -18,6 +47,11 @@ interface IChatBoxContext {
   message: string;
   setMessage: (message: string) => void;
   onSendMessage: () => void;
+
+  isEmailSent: boolean;
+  email: string;
+  setEmail: (email: string) => void;
+  onSendEmail: () => void;
 }
 
 const defaultState = {
@@ -43,45 +77,21 @@ export function ChatBoxProvider({
   showOnInitial: boolean;
   children: any;
 }) {
-  // default is 24 hours
-  function setWithExpiry(
-    key: string,
-    value: string,
-    ttl = 24 * 60 * 60 * 1000
-  ) {
-    const now = new Date();
-
-    const item = {
-      value: value,
-      expiry: now.getTime() + ttl,
-    };
-    localStorage.setItem(key, JSON.stringify(item));
-  }
-
-  function getWithExpiry(key: string) {
-    const itemStr = localStorage.getItem(key);
-    if (!itemStr) {
-      return null;
-    }
-    const item = JSON.parse(itemStr);
-    const now = new Date();
-    if (now.getTime() > item.expiry) {
-      localStorage.removeItem(key);
-      window.location.reload();
-      return null;
-    }
-    return item.value;
-  }
-
   let initialID = "visitor";
   const localID = getWithExpiry("chatbox_id");
-  console.log("localID", localID);
 
   const [UID, setUID] = useState(localID ? localID : initialID);
   const [chatInitiated, setChatInitiated] = useState(localID ? true : false);
 
+  const [isEmailSent, setIsEmailSent] = useState(getWithExpiry("emailSent"));
+
+  const [hasBeen5Minutes, setHasBeen5Minutes] = useState(
+    getWithExpiry("hasBeen5Minutes")
+  );
+
   const [chat, setChat] = useState([]);
   const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");
 
   const [isModalShow, setIsModalShow] = useState(showOnInitial);
 
@@ -94,6 +104,7 @@ export function ChatBoxProvider({
   const onSendMessage = async () => {
     try {
       let id = UID;
+      let chatInitiatedTemp = chatInitiated;
 
       if (!chatInitiated) {
         id = nanoid(10);
@@ -106,6 +117,9 @@ export function ChatBoxProvider({
 
         if (initResponse.status !== 200) {
           localStorage.removeItem("chatbox_id");
+          localStorage.removeItem("hasBeen5Minutes");
+          localStorage.removeItem("emailSent");
+
           throw new Error("Failed to init chat");
         }
 
@@ -113,10 +127,36 @@ export function ChatBoxProvider({
         setUID(id);
       }
 
+      // If it has been 5 minutes after the last message, resend notification to slack.
+      const hasBeen5Minutes = getWithExpiry("hasBeen5Minutes");
+
+      setWithExpiry("hasBeen5Minutes", "false", 5 * 60 * 1000);
+
+      setHasBeen5Minutes(false);
+
+      if (!hasBeen5Minutes && chatInitiatedTemp) {
+        const initResponse = await fetch(`/api/chatbox/slack/${id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ reminder: "Reminder" }),
+        });
+
+        if (initResponse.status !== 200) {
+          localStorage.removeItem("hasBeen5Minutes");
+          setHasBeen5Minutes(true);
+          throw new Error("Failed to post reminder.");
+        }
+      }
+
       let replyText = "i:" + message;
 
       const replyResponse = await fetch(`/api/chatbox/chat/${id}`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ text: replyText }),
       });
 
@@ -126,6 +166,39 @@ export function ChatBoxProvider({
 
       await fetchList(id);
       return setMessage("");
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  const onSendEmail = async () => {
+    try {
+      if (isEmailSent) return;
+
+      let id = UID;
+
+      if (!chatInitiated) {
+        id = nanoid(10);
+
+        setWithExpiry("chatbox_id", id);
+        setWithExpiry("hasBeen5Minutes", "false", 5 * 60 * 1000);
+        setUID(id);
+      }
+
+      const response = await fetch(`/api/chatbox/slack-email/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.status !== 200) {
+        throw new Error("Failed to send email address");
+      }
+
+      setWithExpiry("emailSent", "true");
+      setIsEmailSent(true);
     } catch (err) {
       alert(err);
     }
@@ -144,18 +217,16 @@ export function ChatBoxProvider({
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [chatInitiated, isModalShow, UID]);
+  }, [chatInitiated, isModalShow, UID, hasBeen5Minutes]);
 
   return (
     <ChatBoxContext.Provider
       value={{
         themeColor,
         textColor,
-
         autoMessage,
         title,
         description,
-
         showOnInitial,
 
         isModalShow,
@@ -165,6 +236,11 @@ export function ChatBoxProvider({
         message,
         setMessage,
         onSendMessage,
+
+        isEmailSent,
+        email,
+        setEmail,
+        onSendEmail,
       }}
     >
       {children}
