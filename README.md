@@ -2,7 +2,7 @@
 
 Create a ChatBox Widget (like Intercom live chat) for your Next.js app. When your website's visitor starts a session, the chat link is sent to your Slack channel.  
 
-See [the demo](https://upstash-chatbox.vercel.app)
+Check out the [the demo](https://upstash-chatbox.vercel.app).
 
 
 Here the steps:
