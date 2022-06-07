@@ -5,7 +5,7 @@ Create a ChatBox Widget (like Intercom live chat) for your Next.js app. When you
 See [the demo](https://upstash-chatbox.vercel.app)
 
 
-Here the set up steps:
+Here the steps:
 
 ### 1. Create Upstash Redis
 
