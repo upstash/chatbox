@@ -1,15 +1,15 @@
 # ChatBox Widget for Next.js Apps
 
-Create a ChatBox Widget for your Next.js site like Intercom live chat. When your website's visitor starts a session, the chat link is sent to your Slack channel.  
+Create a ChatBox Widget (like Intercom live chat) for your Next.js app. When your website's visitor starts a session, the chat link is sent to your Slack channel.  
 
 See [the demo](https://upstash-chatbox.vercel.app)
 
 
 Here the set up steps:
 
-### 1. Create Database and Environment Variables
+### 1. Create Upstash Redis
 
-The data will be stored at [Upstash Redis](https://upstash.com).
+We will use [Upstash Redis](https://upstash.com) to keep the data as well as messaging (Redis pub/sub).
 
 Create a free Redis database at [Upstash Console](https://console.upstash.com)
 
