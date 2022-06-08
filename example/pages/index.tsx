@@ -43,7 +43,7 @@ export default function Home() {
         </h1>
 
         <h4 className="mt-4 text-xl">
-          Create a ChatBox Widget for your Next.js site like Intercom live chat.
+          Create a ChatBox Widget (like Intercom live chat) for your Next.js site. Nothing to maintain, it is completely serverless. 
         </h4>
 
         <p className="mt-2">
@@ -60,7 +60,7 @@ export default function Home() {
         <ol className="mt-4 space-y-4 list-decimal list-inside">
           <li className="group">
             <b className="underline">Initiate a chat</b> session by clicking the
-            button below.
+            button at the bottom right.
             <svg
               className="pointer-events-none transition opacity-0 group-hover:opacity-100 z-10 fixed right-24 bottom-10"
               width="160"
@@ -98,14 +98,14 @@ export default function Home() {
                 window.open("chat/" + id, "_blank");
               }}
             >
-              Visit admin panel
+              Visit admin page
             </button>{" "}
             to interact with the chat.️
           </li>
         </ol>
 
         <p className="mt-6 pl-6 py-4 border-l-4  border-l-emerald-500 bg-gradient-to-r from-emerald-50">
-          Redirection link will also posted to the Slack channel in the format
+          Admin page link will also posted to the Slack channel in the format
           of <span className="font-semibold">yoursite.com/chat/:id</span>
         </p>
 
