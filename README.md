@@ -95,3 +95,7 @@ const ChatBoxAPI = createChatBoxAPI({
 
 export default ChatBoxAPI;
 ```
+
+### Support
+Use [Upstash Discord](https://discord.gg/w9SenAtbme) channel to get support.
+
