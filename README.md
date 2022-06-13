@@ -36,7 +36,7 @@ yarn add @upstash/chatbox
 ```jsx
 // pages/_app.js
 
-import "@upstash/chatbox/index.css";
+import "@upstash/chatbox/style.css";
 import dynamic from "next/dynamic";
 
 const ChatBoxWidget = dynamic({
