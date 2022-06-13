@@ -43,6 +43,7 @@ interface IChatBoxContext {
   isModalShow: boolean;
   onModalShow: (state: boolean) => void;
 
+  isChatTrigger: number;
   chat: string[];
   message: string;
   setMessage: (message: string) => void;
@@ -89,6 +90,7 @@ export function ChatBoxProvider({
     getWithExpiry("hasBeen5Minutes")
   );
 
+  const [isChatTrigger, setIsChatTrigger] = useState(performance.now());
   const [chat, setChat] = useState([]);
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
@@ -165,7 +167,8 @@ export function ChatBoxProvider({
       }
 
       await fetchList(id);
-      return setMessage("");
+      setIsChatTrigger(performance.now());
+      setMessage("");
     } catch (err) {
       alert(err);
     }
@@ -206,12 +209,14 @@ export function ChatBoxProvider({
 
   const onModalShow = (status: boolean) => {
     setIsModalShow(status);
+    if (status) setIsChatTrigger(performance.now());
   };
 
   useEffect(() => {
     if (!chatInitiated || !isModalShow) return;
 
     fetchList();
+
     const interval = setInterval(() => {
       fetchList();
     }, 3000);
@@ -232,6 +237,7 @@ export function ChatBoxProvider({
         isModalShow,
         onModalShow,
 
+        isChatTrigger,
         chat,
         message,
         setMessage,

@@ -1,5 +1,5 @@
 import "styles/globals.css";
-import "@upstash/chatbox/chatbox.css";
+import "@upstash/chatbox/style.css";
 
 import { AppProps } from "next/app";
 import Head from "next/head";

@@ -6,7 +6,8 @@
   "module": "./index.mjs",
   "types": "./index.d.ts",
   "scripts": {
-    "build": "tsup && cp package.json ./dist/"
+    "build": "tsup && cp package.json ./dist/",
+    "dev": "next dev"
   },
   "dependencies": {
     "@upstash/redis": "^1.2.0",

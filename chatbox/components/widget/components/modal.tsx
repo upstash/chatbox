@@ -5,15 +5,22 @@ import Chat from "../../shared/chat";
 import Header from "./header";
 
 export default function Modal() {
-  const { isModalShow, chat, message, setMessage, onSendMessage, onSendEmail } =
-    useContext(FeedbackContext);
+  const {
+    isModalShow,
+    isChatTrigger,
+    chat,
+    message,
+    setMessage,
+    onSendMessage,
+    onSendEmail,
+  } = useContext(FeedbackContext);
 
   if (!isModalShow) return null;
 
   return (
     <div className="chatbox-widget-modal">
       <Header />
-      <Chat chat={chat} emailForm />
+      <Chat chat={chat} emailForm isChatTrigger={isChatTrigger} />
 
       <Form
         message={message}

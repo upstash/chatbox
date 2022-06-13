@@ -28,7 +28,14 @@ export default function Form({
         className="chatbox-form-message"
         maxRows={5}
         value={message}
-        onChange={(event) => setMessage(event.target.value)}
+        onChange={(event) => {
+          setMessage(
+            event.target.value
+              .split("\n")
+              .filter((v) => v)
+              .join(" ")
+          );
+        }}
         onKeyUp={(event) => {
           if (event.key === "Enter") {
             event.preventDefault();

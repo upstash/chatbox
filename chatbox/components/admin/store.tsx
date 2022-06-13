@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 
 interface IChatBoxContext {
   id: string;
+  isChatTrigger: number;
   chat: string[];
   message: string;
   setMessage: (message: string) => void;
@@ -19,6 +20,7 @@ export function ChatBoxProvider({
   children: any;
   id: string;
 }) {
+  const [isChatTrigger, setIsChatTrigger] = useState(performance.now());
   const [chat, setChat] = useState([]);
   const [message, setMessage] = useState("");
 
@@ -40,13 +42,17 @@ export function ChatBoxProvider({
     });
 
     await fetchList();
-    return setMessage("");
+    setIsChatTrigger(performance.now());
+    setMessage("");
   };
 
   useEffect(() => {
     if (!id) return;
 
     fetchList();
+    setTimeout(() => {
+      setIsChatTrigger(performance.now());
+    }, 100);
 
     const interval = setInterval(() => {
       fetchList();
@@ -59,6 +65,7 @@ export function ChatBoxProvider({
     <ChatBoxContext.Provider
       value={{
         id,
+        isChatTrigger,
         chat,
         message,
         setMessage,

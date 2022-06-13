@@ -5,7 +5,7 @@ import Chat from "../shared/chat";
 import Form from "../shared/form";
 
 function ChatBoxAdmin() {
-  const { id, chat, message, setMessage, onSendMessage } =
+  const { id, isChatTrigger, chat, message, setMessage, onSendMessage } =
     useContext(FeedbackContext);
 
   return (
@@ -15,7 +15,7 @@ function ChatBoxAdmin() {
           <header className="chatbox-admin-header">
             <h1>Hi, chat id: {id}:</h1>
           </header>
-          <Chat chat={chat} />
+          <Chat chat={chat} isChatTrigger={isChatTrigger} />
           <Form
             message={message}
             setMessage={setMessage}

@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Email from "../widget/components/email";
 
 interface IChatBoxAdminChat {
   chat: string[];
   emailForm?: boolean;
+  isChatTrigger: number;
 }
 
-export default function Chat({ chat, emailForm = false }: IChatBoxAdminChat) {
+export default function Chat({
+  isChatTrigger,
+  chat,
+  emailForm = false,
+}: IChatBoxAdminChat) {
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!chatContainerRef.current) return;
+    chatContainerRef.current.scrollTo({
+      behavior: "smooth",
+      top: 99999,
+    });
+  }, [isChatTrigger]);
+
   function parseString(str: string) {
     let sender = str.substring(0, 1);
     let message = str.substring(2);
@@ -21,22 +36,30 @@ export default function Chat({ chat, emailForm = false }: IChatBoxAdminChat) {
       : "chatbox-chat-message-out";
 
     const Message = () => (
-      <div key={index} className={`chatbox-chat-message ${classNames}`}>
+      <div className={`chatbox-chat-message ${classNames}`}>
         <span>{parsedStr[1]}</span>
       </div>
     );
 
     if (emailForm && index === 0) {
       return (
-        <div key={index}>
+        <div key={9999}>
           <Message />
           <Email />
         </div>
       );
     }
 
-    return <Message />;
+    return (
+      <div key={index}>
+        <Message />
+      </div>
+    );
   });
 
-  return <div className="chatbox-chat">{Messages}</div>;
+  return (
+    <div className="chatbox-chat" ref={chatContainerRef}>
+      {Messages}
+    </div>
+  );
 }
