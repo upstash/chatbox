@@ -40,7 +40,7 @@ import "@upstash/chatbox/style.css";
 import dynamic from "next/dynamic";
 
 const ChatBoxWidget = dynamic({
-  loader: () => import("@upstash/chatbox"),
+  loader: () => import("@upstash/chatbox/chatbox"),
   ssr: false,
 });
 
@@ -73,7 +73,7 @@ The options can be passed as React props
 import dynamic from "next/dynamic";
 
 const ChatBoxAdmin = dynamic({
-  loader: () => import("@upstash/chatbox"),
+  loader: () => import("@upstash/chatbox/admin"),
   ssr: false,
 });
 
