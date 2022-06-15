@@ -163,7 +163,7 @@ export default function Home() {
             target="_blank"
             href="https://github.com/upstash/chatbox"
           >
-            github readme
+            GitHub README
           </a>{" "}
           file for installation.
         </p>
